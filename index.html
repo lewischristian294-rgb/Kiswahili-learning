@@ -1,1 +1,110 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Kiswahili</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f0f8f4;
+      color: #18352b;
+      text-align: center;
+    }
+    header {
+      background: #087f5b;
+      color: white;
+      padding: 28px 15px;
+    }
+    h1 { margin: 0 0 10px; }
+    main {
+      max-width: 600px;
+      margin: 25px auto;
+      padding: 15px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px #0001;
+    }
+    button {
+      background: #087f5b;
+      color: white;
+      border: 0;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    footer { padding: 20px; color: #456; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Karibu! 🇰🇪</h1>
+    <p>Welcome to Learn Kiswahili</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Learn Basic Words</h2>
+      <p>Hello — <b>Habari</b></p>
+      <p>Thank you — <b>Asante</b></p>
+      <p>Please — <b>Tafadhali</b></p>
+      <p>Good morning — <b>Habari za asubuhi</b></p>
+      <p>Goodbye — <b>Kwaheri</b></p>
+    </div>
+
+    <div class="card">
+      <h2>Test Your Kiswahili</h2>
+      <p id="question">What does "Asante" mean?</p>
+      <button onclick="answer('Hello')">Hello</button>
+      <button onclick="answer('Thank you')">Thank you</button>
+      <button onclick="answer('Goodbye')">Goodbye</button>
+      <p id="result"></p>
+      <button onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div class="card">
+      <h2>Keep Learning!</h2>
+      <p>Practice Kiswahili every day.</p>
+      <p>Kidogo kidogo hujaza kibaba!</p>
+      <p><i>Little by little fills the measure.</i></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Learn Kiswahili | Jifunze Kiswahili</p>
+  </footer>
+
+  <script>
+    let current = 0;
+    const questions = [
+      {q: 'What does "Asante" mean?', a: 'Thank you'},
+      {q: 'What does "Habari" mean?', a: 'Hello'},
+      {q: 'What does "Kwaheri" mean?', a: 'Goodbye'},
+      {q: 'What does "Tafadhali" mean?', a: 'Please'}
+    ];
+
+    function answer(choice) {
+      document.getElementById('result').textContent =
+        choice === questions[current].a
+        ? 'Correct! Hongera! 🎉'
+        : 'Not quite. Try again!';
+    }
+
+    function nextQuestion() {
+      current = (current + 1) % questions.length;
+      document.getElementById('question').textContent =
+        questions[current].q;
+      document.getElementById('result').textContent = '';
+    }
+  </script>
+</body>
+</html>
+
