@@ -1,110 +1,547 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learn Kiswahili</title>
+  <meta name="theme-color" content="#087f5b">
+  <meta name="description" content="Learn practical Kiswahili for everyday life in Kenya with friendly lessons, pronunciation and quizzes.">
+  <title>Learn Kiswahili | Karibu!</title>
   <style>
+    :root {
+      --green: #087f5b;
+      --green-dark: #075b43;
+      --green-light: #e5f5ed;
+      --cream: #f6f8f2;
+      --ink: #173b30;
+      --muted: #64756d;
+      --white: #fff;
+      --border: #e0e9e2;
+      --gold: #f2c66d;
+      --red: #b83b45;
+      --shadow: 0 10px 30px rgba(18, 61, 44, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f0f8f4;
-      color: #18352b;
-      text-align: center;
+      margin: 0; background: var(--cream); color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    .topbar {
+      background: var(--green-dark); color: white; padding: 9px 18px;
+      text-align: center; font-size: .86rem;
     }
     header {
-      background: #087f5b;
-      color: white;
-      padding: 28px 15px;
+      background: var(--green); color: white; padding: 14px 20px;
+      position: sticky; top: 0; z-index: 10; box-shadow: 0 3px 12px #063d2e20;
     }
-    h1 { margin: 0 0 10px; }
-    main {
-      max-width: 600px;
-      margin: 25px auto;
-      padding: 15px;
+    .nav { max-width: 1120px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 850; font-size: 1.15rem; }
+    .brand-mark { display: grid; place-items: center; background: white; color: var(--green); border-radius: 12px; width: 40px; height: 40px; font-size: 1.35rem; }
+    .navlinks { display: flex; align-items: center; gap: 7px; }
+    .navlinks a { color: white; text-decoration: none; padding: 9px 12px; border-radius: 9px; font-size: .95rem; }
+    .navlinks a:hover { background: #ffffff20; }
+    .nav-cta { background: var(--gold); color: #243c2e !important; font-weight: 800; }
+    .hero {
+      background: linear-gradient(135deg, #087f5b 0%, #0c9169 58%, #126a51 100%);
+      color: white; padding: 54px 20px 58px; overflow: hidden; position: relative;
     }
-    .card {
-      background: white;
-      padding: 20px;
-      margin: 15px 0;
-      border-radius: 14px;
-      box-shadow: 0 3px 10px #0001;
+    .hero:after { content: "JAMBO"; position: absolute; right: -18px; bottom: -44px; font-size: clamp(5rem, 18vw, 12rem); font-weight: 900; color: #ffffff0b; pointer-events: none; }
+    .hero-inner { max-width: 1120px; margin: auto; display: grid; grid-template-columns: 1.3fr .7fr; align-items: center; gap: 30px; position: relative; z-index: 1; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; font-weight: 850; color: #d7f6e8; }
+    h1 { font-size: clamp(2.3rem, 6vw, 4.2rem); line-height: 1.08; margin: 12px 0 16px; letter-spacing: -.04em; }
+    .hero p { max-width: 620px; color: #e4f7ed; font-size: 1.1rem; margin: 0 0 25px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 11px; }
+    .btn { border: 0; border-radius: 12px; padding: 12px 18px; font-weight: 800; transition: transform .15s, background .15s; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--gold); color: #243c2e; }
+    .btn-light { background: white; color: var(--green-dark); }
+    .btn-green { background: var(--green); color: white; }
+    .btn-outline { border: 1px solid var(--border); color: var(--ink); background: white; }
+    .hero-note { margin-top: 20px; color: #d7f6e8; font-size: .9rem; }
+    .hero-card { background: #ffffff15; border: 1px solid #ffffff35; border-radius: 24px; padding: 25px; backdrop-filter: blur(5px); }
+    .hero-card .flag { font-size: 3.1rem; }
+    .hero-card h2 { margin: 8px 0; font-size: 1.45rem; }
+    .phrase { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #ffffff38; padding: 12px 0 0; margin-top: 12px; }
+    .phrase strong { display: block; }
+    .phrase span { color: #e0f5e9; font-size: .9rem; }
+    .sound-btn { border: 0; background: #e6f5ec; color: var(--green-dark); border-radius: 50%; width: 40px; height: 40px; flex: 0 0 auto; font-size: 1.1rem; }
+    main { max-width: 1120px; padding: 0 20px 56px; margin: auto; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: -24px; position: relative; z-index: 2; }
+    .stat { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 17px; box-shadow: var(--shadow); }
+    .stat strong { display: block; font-size: 1.45rem; }
+    .stat span { color: var(--muted); font-size: .88rem; }
+    section { scroll-margin-top: 90px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin: 42px 0 18px; }
+    .section-head h2 { margin: 0; font-size: clamp(1.55rem, 4vw, 2.1rem); letter-spacing: -.025em; }
+    .section-head p { color: var(--muted); margin: 5px 0 0; }
+    .level-pill { background: var(--green-light); color: var(--green-dark); padding: 6px 11px; border-radius: 999px; font-size: .8rem; font-weight: 800; white-space: nowrap; }
+    .lesson-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .lesson-card { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-height: 220px; }
+    .lesson-card.active { border: 2px solid var(--green); padding: 19px; }
+    .lesson-icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--green-light); font-size: 1.5rem; }
+    .lesson-card h3 { margin: 14px 0 5px; font-size: 1.15rem; }
+    .lesson-card p { color: var(--muted); font-size: .93rem; margin: 0 0 18px; }
+    .lesson-meta { color: var(--muted); font-size: .82rem; margin-bottom: 14px; }
+    .lesson-card .btn { margin-top: auto; width: 100%; }
+    .lesson-area { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 18px; align-items: start; }
+    .panel { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: var(--shadow); }
+    .panel h3 { margin: 0 0 8px; font-size: 1.35rem; }
+    .panel-intro { margin: 0 0 18px; color: var(--muted); }
+    .word-list { display: grid; gap: 10px; }
+    .word-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #f8fbf8; border: 1px solid #e8f0e9; border-radius: 13px; padding: 12px 14px; }
+    .word-row strong { display: block; font-size: 1.02rem; }
+    .word-row small { color: var(--muted); }
+    .word-actions { display: flex; align-items: center; gap: 9px; }
+    .quiz-box { background: #f8fbf8; border-radius: 15px; padding: 18px; }
+    .quiz-top { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .84rem; margin-bottom: 10px; }
+    .progress { height: 7px; background: #e2ebe4; border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
+    .progress-fill { height: 100%; width: 0; background: var(--green); transition: width .25s; }
+    #question { font-size: 1.15rem; font-weight: 800; margin: 0 0 15px; }
+    .answers { display: grid; gap: 9px; }
+    .answer-btn { text-align: left; width: 100%; background: white; border: 1px solid #dbe6dc; color: var(--ink); padding: 12px 14px; border-radius: 11px; font-weight: 650; }
+    .answer-btn:hover:not(:disabled) { border-color: var(--green); background: #f0faf4; }
+    .answer-btn.correct { border-color: #178452; background: #e0f6e9; color: #075b36; }
+    .answer-btn.wrong { border-color: #c94a53; background: #fff0f0; color: #922b33; }
+    .feedback { min-height: 27px; margin: 12px 0 5px; font-weight: 750; font-size: .93rem; }
+    .feedback.good { color: #087447; }
+    .feedback.bad { color: var(--red); }
+    .quiz-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .quiz-controls .btn { flex: 1; }
+    .dialogue { background: linear-gradient(135deg, #fff8e7, #fffdf6); border: 1px solid #f0e5c8; border-radius: 17px; padding: 18px; margin-top: 18px; }
+    .dialogue h4 { margin: 0 0 10px; }
+    .dialogue-line { margin: 9px 0; }
+    .dialogue-line strong { color: var(--green-dark); }
+    .dialogue-line small { display: block; color: var(--muted); }
+    .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .tip { padding: 20px; border-radius: 17px; background: white; border: 1px solid var(--border); }
+    .tip .tip-icon { font-size: 1.7rem; }
+    .tip h3 { margin: 8px 0 5px; font-size: 1.05rem; }
+    .tip p { color: var(--muted); margin: 0; font-size: .92rem; }
+    .notice { margin-top: 20px; background: var(--green-light); border-radius: 13px; padding: 14px 16px; color: var(--green-dark); font-size: .9rem; }
+    footer { background: #103d2f; color: #e4f4e9; padding: 28px 20px; }
+    .footer-inner { max-width: 1120px; margin: auto; display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
+    footer p { margin: 4px 0; font-size: .9rem; }
+    .small-muted { color: #b7d5c7; }
+    .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: #173b30; color: white; padding: 11px 16px; border-radius: 12px; box-shadow: var(--shadow); z-index: 50; display: none; max-width: calc(100% - 30px); text-align: center; }
+    @media (max-width: 780px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-card { max-width: 520px; }
+      .lesson-grid { grid-template-columns: repeat(2, 1fr); }
+      .lesson-area { grid-template-columns: 1fr; }
+      .tips-grid { grid-template-columns: 1fr; }
+      .navlinks a:not(.nav-cta) { display: none; }
     }
-    button {
-      background: #087f5b;
-      color: white;
-      border: 0;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 5px;
+    @media (max-width: 480px) {
+      .topbar { font-size: .78rem; }
+      header { padding: 10px 14px; }
+      .navlinks a { padding: 8px 10px; font-size: .85rem; }
+      .hero { padding: 38px 17px 48px; }
+      main { padding: 0 14px 42px; }
+      .stats { gap: 8px; }
+      .stat { padding: 12px 10px; }
+      .stat strong { font-size: 1.2rem; }
+      .stat span { font-size: .75rem; }
+      .lesson-grid { grid-template-columns: 1fr; }
+      .section-head { align-items: start; flex-direction: column; }
+      .panel { padding: 17px; }
+      .hero-card { padding: 19px; }
     }
-    footer { padding: 20px; color: #456; }
   </style>
 </head>
 <body>
+  <div class="topbar">🇰🇪 Karibu Kenya! Learn a little Kiswahili every day.</div>
   <header>
-    <h1>Karibu! 🇰🇪</h1>
-    <p>Welcome to Learn Kiswahili</p>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#home"><span class="brand-mark">🗣️</span><span>Learn Kiswahili</span></a>
+      <div class="navlinks">
+        <a href="#lessons">Lessons</a>
+        <a href="#practice">Practice</a>
+        <a href="#tips">Tips</a>
+        <a class="nav-cta" href="#lessons">Start learning</a>
+      </div>
+    </nav>
   </header>
 
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Your friendly Kiswahili guide</div>
+        <h1>Karibu! <span aria-label="Kenyan flag">🇰🇪</span><br>Speak a little more every day.</h1>
+        <p>Learn useful words, everyday Kenyan expressions, and simple conversations at your own pace. Hakuna pressure — let's learn!</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#lessons" style="text-decoration:none">Explore lessons →</a>
+          <a class="btn btn-light" href="#practice" style="text-decoration:none">Try a quick quiz</a>
+        </div>
+        <div class="hero-note">Beginner friendly · Short lessons · Free to practise</div>
+      </div>
+      <div class="hero-card">
+        <div class="flag">🌿</div>
+        <h2>Today's useful phrase</h2>
+        <div style="font-size:1.35rem;font-weight:850">Habari yako?</div>
+        <div style="color:#e0f5e9">How are you?</div>
+        <div class="phrase">
+          <div><strong>Nzuri, asante.</strong><span>I'm fine, thank you.</span></div>
+          <button class="sound-btn" data-speak="Nzuri, asante" aria-label="Listen to Nzuri, asante">🔊</button>
+        </div>
+        <div class="phrase">
+          <div><strong>Karibu!</strong><span>Welcome!</span></div>
+          <button class="sound-btn" data-speak="Karibu" aria-label="Listen to Karibu">🔊</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <main>
-    <div class="card">
-      <h2>Learn Basic Words</h2>
-      <p>Hello — <b>Habari</b></p>
-      <p>Thank you — <b>Asante</b></p>
-      <p>Please — <b>Tafadhali</b></p>
-      <p>Good morning — <b>Habari za asubuhi</b></p>
-      <p>Goodbye — <b>Kwaheri</b></p>
+    <div class="stats" aria-label="Your learning progress">
+      <div class="stat"><strong id="stat-lessons">0 / 6</strong><span>Lessons explored</span></div>
+      <div class="stat"><strong id="stat-score">0</strong><span>Quiz points earned</span></div>
+      <div class="stat"><strong id="stat-streak">Karibu!</strong><span>Your learning journey</span></div>
     </div>
 
-    <div class="card">
-      <h2>Test Your Kiswahili</h2>
-      <p id="question">What does "Asante" mean?</p>
-      <button onclick="answer('Hello')">Hello</button>
-      <button onclick="answer('Thank you')">Thank you</button>
-      <button onclick="answer('Goodbye')">Goodbye</button>
-      <p id="result"></p>
-      <button onclick="nextQuestion()">Next Question</button>
-    </div>
+    <section id="lessons">
+      <div class="section-head">
+        <div><h2>Choose your next lesson</h2><p>Start with the basics and build up naturally.</p></div>
+        <span class="level-pill">LEVEL 1 · BEGINNER</span>
+      </div>
+      <div class="lesson-grid" id="lesson-grid">
+        <article class="lesson-card active">
+          <div class="lesson-icon">👋</div><h3>1. Greetings</h3><p>Say hello, ask how someone is, and say goodbye.</p><div class="lesson-meta">5 useful phrases · 3 min</div><button class="btn btn-green" data-lesson="greetings">Open lesson</button>
+        </article>
+        <article class="lesson-card">
+          <div class="lesson-icon">🙏</div><h3>2. Polite words</h3><p>Use please, thank you, sorry, and you're welcome.</p><div class="lesson-meta">5 useful phrases · 3 min</div><button class="btn btn-outline" data-lesson="polite">Open lesson</button>
+        </article>
+        <article class="lesson-card">
+          <div class="lesson-icon">🔢</div><h3>3. Numbers</h3><p>Count from one to ten in Kiswahili.</p><div class="lesson-meta">10 useful words · 4 min</div><button class="btn btn-outline" data-lesson="numbers">Open lesson</button>
+        </article>
+        <article class="lesson-card">
+          <div class="lesson-icon">🍲</div><h3>4. Food & drinks</h3><p>Order a meal or ask for water at a café.</p><div class="lesson-meta">5 useful phrases · 4 min</div><button class="btn btn-outline" data-lesson="food">Open lesson</button>
+        </article>
+        <article class="lesson-card">
+          <div class="lesson-icon">🚌</div><h3>5. Getting around</h3><p>Ask where a place is and learn common travel words.</p><div class="lesson-meta">5 useful phrases · 4 min</div><button class="btn btn-outline" data-lesson="travel">Open lesson</button>
+        </article>
+        <article class="lesson-card">
+          <div class="lesson-icon">💬</div><h3>6. Everyday chat</h3><p>Practise a simple, friendly conversation.</p><div class="lesson-meta">Mini dialogue · 5 min</div><button class="btn btn-outline" data-lesson="chat">Open lesson</button>
+        </article>
+      </div>
+    </section>
 
-    <div class="card">
-      <h2>Keep Learning!</h2>
-      <p>Practice Kiswahili every day.</p>
-      <p>Kidogo kidogo hujaza kibaba!</p>
-      <p><i>Little by little fills the measure.</i></p>
-    </div>
+    <section id="practice">
+      <div class="section-head">
+        <div><h2>Learn & practise</h2><p>Listen to a phrase, say it out loud, then test yourself.</p></div>
+      </div>
+      <div class="lesson-area">
+        <div class="panel">
+          <h3 id="lesson-title">👋 Greetings</h3>
+          <p class="panel-intro" id="lesson-description">Friendly ways to greet someone in everyday life.</p>
+          <div class="word-list" id="word-list"></div>
+          <div class="dialogue" id="dialogue">
+            <h4>🗨️ A tiny conversation</h4>
+            <div class="dialogue-line"><strong>A: Hujambo?</strong><small>Hello / How are you? (polite, singular)</small></div>
+            <div class="dialogue-line"><strong>B: Sijambo, asante. Na wewe?</strong><small>I'm fine, thank you. And you?</small></div>
+            <div class="dialogue-line"><strong>A: Nzuri!</strong><small>Good!</small></div>
+            <button class="btn btn-outline" id="play-dialogue" style="margin-top:8px">🔊 Listen to phrases</button>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>🎯 Quick quiz</h3>
+          <p class="panel-intro">Choose the best English meaning.</p>
+          <div class="quiz-box">
+            <div class="quiz-top"><span id="quiz-count">Question 1 of 8</span><span>Score: <strong id="quiz-score">0</strong></span></div>
+            <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+            <p id="question">What does “Asante” mean?</p>
+            <div class="answers" id="answers">
+              <button class="answer-btn" data-answer="Hello">Hello</button>
+              <button class="answer-btn" data-answer="Thank you">Thank you</button>
+              <button class="answer-btn" data-answer="Goodbye">Goodbye</button>
+            </div>
+            <div class="feedback" id="feedback" aria-live="polite"></div>
+            <div class="quiz-controls">
+              <button class="btn btn-green" id="next-question" disabled>Next question →</button>
+              <button class="btn btn-outline" id="restart-quiz">Start again</button>
+            </div>
+          </div>
+          <div class="notice">Tip: If audio is available on your phone, tap 🔊 to hear the pronunciation. Audio depends on your browser's speech support.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tips">
+      <div class="section-head"><div><h2>Make it stick</h2><p>Small habits help you remember new words.</p></div></div>
+      <div class="tips-grid">
+        <article class="tip"><div class="tip-icon">🗣️</div><h3>Say it out loud</h3><p>Repeat each phrase a few times. Speaking helps you get comfortable with the sounds.</p></article>
+        <article class="tip"><div class="tip-icon">🧠</div><h3>Learn in small bites</h3><p>Try five new words today, then revisit them tomorrow instead of cramming.</p></article>
+        <article class="tip"><div class="tip-icon">🤝</div><h3>Use it in real life</h3><p>Greet someone with “Habari?” or say “Asante” when someone helps you.</p></article>
+      </div>
+      <div class="notice"><strong>A quick language note:</strong> Kiswahili expressions can vary by context and region. These beginner lessons focus on widely understood forms used in everyday Kenyan conversation.</div>
+    </section>
   </main>
 
   <footer>
-    <p>© 2026 Learn Kiswahili | Jifunze Kiswahili</p>
+    <div class="footer-inner">
+      <div><strong>Learn Kiswahili 🇰🇪</strong><p class="small-muted">Kidogo kidogo — little by little.</p></div>
+      <p class="small-muted">Made for curious learners. Keep practising!</p>
+    </div>
   </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    let current = 0;
+    const lessons = {
+      greetings: {
+        title: "👋 Greetings", description: "Friendly ways to greet someone in everyday life.",
+        words: [
+          ["Habari?", "How are you? / What's the news?"],
+          ["Habari za asubuhi", "Good morning"],
+          ["Hujambo?", "Hello / How are you? (singular, polite)"],
+          ["Sijambo", "I'm fine (reply to Hujambo)"],
+          ["Kwaheri", "Goodbye"]
+        ],
+        dialogue: [["A: Hujambo?", "Hello / How are you? (polite, singular)"], ["B: Sijambo, asante. Na wewe?", "I'm fine, thank you. And you?"], ["A: Nzuri!", "Good!"]]
+      },
+      polite: {
+        title: "🙏 Polite words", description: "A few small words that make conversations warmer.",
+        words: [
+          ["Asante", "Thank you"], ["Tafadhali", "Please"], ["Samahani", "Excuse me / Sorry"],
+          ["Karibu", "Welcome / You're welcome"], ["Pole", "Sorry to hear that / Take care"]
+        ],
+        dialogue: [["A: Tafadhali, maji.", "Water, please."], ["B: Haya, karibu.", "Okay, here you are."], ["A: Asante sana.", "Thank you very much."]]
+      },
+      numbers: {
+        title: "🔢 Numbers", description: "Count from one to ten. Try saying each number aloud.",
+        words: [
+          ["Moja", "One"], ["Mbili", "Two"], ["Tatu", "Three"], ["Nne", "Four"], ["Tano", "Five"],
+          ["Sita", "Six"], ["Saba", "Seven"], ["Nane", "Eight"], ["Tisa", "Nine"], ["Kumi", "Ten"]
+        ],
+        dialogue: [["A: Una miaka mingapi?", "How old are you?"], ["B: Miaka ishirini.", "Twenty years."], ["A: Asante!", "Thank you!"]]
+      },
+      food: {
+        title: "🍲 Food & drinks", description: "Useful words for a café, restaurant, or home.",
+        words: [
+          ["Maji", "Water"], ["Chai", "Tea"], ["Chakula", "Food"], ["Ningependa chai", "I would like tea"],
+          ["Naomba maji, tafadhali", "May I have water, please?"]
+        ],
+        dialogue: [["A: Ungependa nini?", "What would you like?"], ["B: Ningependa chai, tafadhali.", "I would like tea, please."], ["A: Sawa.", "Okay."]]
+      },
+      travel: {
+        title: "🚌 Getting around", description: "Ask for directions and understand a few useful travel words.",
+        words: [
+          ["Wapi?", "Where?"], ["Kushoto", "Left"], ["Kulia", "Right"], ["Karibu na hapa", "Near here"],
+          ["Kituo cha basi", "Bus stop / bus station"]
+        ],
+        dialogue: [["A: Kituo cha basi kiko wapi?", "Where is the bus stop?"], ["B: Ni karibu na hapa.", "It is near here."], ["A: Asante sana.", "Thank you very much."]]
+      },
+      chat: {
+        title: "💬 Everyday chat", description: "Put a few words together in a natural, friendly conversation.",
+        words: [
+          ["Jina lako nani?", "What is your name? (casual)"], ["Jina langu ni…", "My name is…"],
+          ["Unatoka wapi?", "Where are you from?"], ["Ninatoka Kenya", "I'm from Kenya"],
+          ["Nafurahi kukutana nawe", "Nice to meet you"]
+        ],
+        dialogue: [["A: Habari! Jina lako nani?", "Hi! What is your name?"], ["B: Jina langu ni Amina. Na wewe?", "My name is Amina. And you?"], ["A: Naitwa Brian. Nafurahi kukutana nawe.", "I'm called Brian. Nice to meet you."]]
+      }
+    };
+
     const questions = [
-      {q: 'What does "Asante" mean?', a: 'Thank you'},
-      {q: 'What does "Habari" mean?', a: 'Hello'},
-      {q: 'What does "Kwaheri" mean?', a: 'Goodbye'},
-      {q: 'What does "Tafadhali" mean?', a: 'Please'}
+      { q: 'What does "Asante" mean?', options: ["Hello", "Thank you", "Goodbye"], answer: "Thank you", note: "Asante means “thank you.”" },
+      { q: 'How do you say "Good morning"?', options: ["Habari za asubuhi", "Kwaheri", "Tafadhali"], answer: "Habari za asubuhi", note: "Habari za asubuhi is “good morning.”" },
+      { q: 'What does "Tafadhali" mean?', options: ["Please", "Water", "Good night"], answer: "Please", note: "Tafadhali means “please.”" },
+      { q: 'What does "Kwaheri" mean?', options: ["Welcome", "Goodbye", "Thank you"], answer: "Goodbye", note: "Kwaheri is a common way to say “goodbye.”" },
+      { q: 'Which word means "water"?', options: ["Chai", "Chakula", "Maji"], answer: "Maji", note: "Maji means “water.”" },
+      { q: 'What does "Moja" mean?', options: ["One", "Three", "Ten"], answer: "One", note: "Moja means “one.”" },
+      { q: 'How do you say "Where?"', options: ["Lini?", "Wapi?", "Nani?"], answer: "Wapi?", note: "Wapi means “where?”" },
+      { q: 'What does "Karibu" often mean?', options: ["Welcome", "Left", "Sorry"], answer: "Welcome", note: "Karibu can mean “welcome”; context can also make it “you're welcome.”" }
     ];
 
-    function answer(choice) {
-      document.getElementById('result').textContent =
-        choice === questions[current].a
-        ? 'Correct! Hongera! 🎉'
-        : 'Not quite. Try again!';
+    let currentLesson = "greetings";
+    let explored = new Set();
+    let questionIndex = 0;
+    let score = 0;
+    let answered = false;
+    let toastTimer;
+
+    const $ = id => document.getElementById(id);
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) {
+        showToast("Audio pronunciation isn't supported in this browser. Try Chrome on your phone.");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "sw-KE";
+      utterance.rate = 0.82;
+      const voices = window.speechSynthesis.getVoices();
+      const swahiliVoice = voices.find(v => v.lang.toLowerCase().startsWith("sw"));
+      if (swahiliVoice) utterance.voice = swahiliVoice;
+      utterance.onerror = () => showToast("Audio couldn't play on this device. You can still read and practise the phrase.");
+      window.speechSynthesis.speak(utterance);
     }
 
-    function nextQuestion() {
-      current = (current + 1) % questions.length;
-      document.getElementById('question').textContent =
-        questions[current].q;
-      document.getElementById('result').textContent = '';
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.style.display = "none", 3000);
     }
+
+    function updateStats() {
+      $("stat-lessons").textContent = `${explored.size} / ${Object.keys(lessons).length}`;
+      $("stat-score").textContent = score;
+      $("stat-streak").textContent = explored.size ? "Unaendelea! 🌱" : "Karibu!";
+      $("quiz-score").textContent = score;
+    }
+
+    function renderLesson(key) {
+      const lesson = lessons[key];
+      if (!lesson) return;
+      currentLesson = key;
+      explored.add(key);
+      $("lesson-title").textContent = lesson.title;
+      $("lesson-description").textContent = lesson.description;
+      $("word-list").innerHTML = "";
+      lesson.words.forEach(([sw, en]) => {
+        const row = document.createElement("div");
+        row.className = "word-row";
+        const text = document.createElement("div");
+        const strong = document.createElement("strong");
+        strong.textContent = sw;
+        const small = document.createElement("small");
+        small.textContent = en;
+        text.append(strong, small);
+        const actions = document.createElement("div");
+        actions.className = "word-actions";
+        const sound = document.createElement("button");
+        sound.className = "sound-btn";
+        sound.type = "button";
+        sound.textContent = "🔊";
+        sound.setAttribute("aria-label", "Listen to " + sw);
+        sound.addEventListener("click", () => speak(sw));
+        actions.append(sound);
+        row.append(text, actions);
+        $("word-list").append(row);
+      });
+      const dialogue = $("dialogue");
+      dialogue.innerHTML = "";
+      const heading = document.createElement("h4");
+      heading.textContent = "🗨️ A tiny conversation";
+      dialogue.append(heading);
+      lesson.dialogue.forEach(([line, translation]) => {
+        const item = document.createElement("div");
+        item.className = "dialogue-line";
+        const strong = document.createElement("strong");
+        strong.textContent = line;
+        const small = document.createElement("small");
+        small.textContent = translation;
+        item.append(strong, small);
+        dialogue.append(item);
+      });
+      const play = document.createElement("button");
+      play.className = "btn btn-outline";
+      play.style.marginTop = "8px";
+      play.textContent = "🔊 Listen to phrases";
+      play.addEventListener("click", () => speak(lesson.dialogue.map(line => line[0].replace(/^[A-Z]:\s*/, "")).join(". ")));
+      dialogue.append(play);
+
+      document.querySelectorAll("[data-lesson]").forEach(button => {
+        const active = button.dataset.lesson === key;
+        button.className = "btn " + (active ? "btn-green" : "btn-outline");
+        button.closest(".lesson-card").classList.toggle("active", active);
+      });
+      updateStats();
+    }
+
+    function renderQuestion() {
+      const item = questions[questionIndex];
+      answered = false;
+      $("quiz-count").textContent = `Question ${questionIndex + 1} of ${questions.length}`;
+      $("progress-fill").style.width = `${(questionIndex / questions.length) * 100}%`;
+      $("question").textContent = item.q;
+      $("feedback").textContent = "";
+      $("feedback").className = "feedback";
+      $("next-question").disabled = true;
+      $("next-question").textContent = questionIndex === questions.length - 1 ? "See my result →" : "Next question →";
+      $("answers").innerHTML = "";
+      item.options.forEach(option => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "answer-btn";
+        button.textContent = option;
+        button.addEventListener("click", () => chooseAnswer(button, option));
+        $("answers").append(button);
+      });
+    }
+
+    function chooseAnswer(button, option) {
+      if (answered) return;
+      answered = true;
+      const item = questions[questionIndex];
+      document.querySelectorAll(".answer-btn").forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === item.answer) btn.classList.add("correct");
+      });
+      if (option === item.answer) {
+        score += 1;
+        $("feedback").textContent = "✓ Correct! " + item.note;
+        $("feedback").className = "feedback good";
+      } else {
+        button.classList.add("wrong");
+        $("feedback").textContent = "Not quite. " + item.note;
+        $("feedback").className = "feedback bad";
+      }
+      $("progress-fill").style.width = `${((questionIndex + 1) / questions.length) * 100}%`;
+      $("next-question").disabled = false;
+      updateStats();
+    }
+
+    $("next-question").addEventListener("click", () => {
+      if (!answered) return;
+      if (questionIndex < questions.length - 1) {
+        questionIndex++;
+        renderQuestion();
+      } else {
+        $("question").textContent = `You scored ${score} out of ${questions.length}!`;
+        $("answers").innerHTML = "";
+        const message = document.createElement("p");
+        message.textContent = score === questions.length ? "Hongera sana! Perfect score — well done!" : score >= 5 ? "Hongera! Great work. Review any phrases you missed and try again." : "Good effort! Keep practising and have another go.";
+        $("answers").append(message);
+        $("feedback").textContent = "Your score is saved while this page stays open. Start again to practise once more.";
+        $("feedback").className = "feedback good";
+        $("progress-fill").style.width = "100%";
+        $("next-question").disabled = true;
+        $("next-question").textContent = "Quiz complete";
+      }
+    });
+
+    $("restart-quiz").addEventListener("click", () => {
+      questionIndex = 0;
+      score = 0;
+      updateStats();
+      renderQuestion();
+      showToast("Quiz restarted. You can do it!");
+    });
+
+    document.querySelectorAll("[data-lesson]").forEach(button => {
+      button.addEventListener("click", () => {
+        renderLesson(button.dataset.lesson);
+        $("practice").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    document.querySelectorAll("[data-speak]").forEach(button => {
+      button.addEventListener("click", () => speak(button.dataset.speak));
+    });
+
+    $("play-dialogue").addEventListener("click", () => {
+      speak("Hujambo? Sijambo, asante. Na wewe? Nzuri!");
+    });
+
+    renderLesson("greetings");
+    renderQuestion();
+    updateStats();
   </script>
 </body>
 </html>
-
