@@ -544,6 +544,110 @@
     updateStats();
   </script>
 </body>
+<!-- LEARN KISWAHILI: FOUR LEARNING LEVELS -->
+<section id="kiswahili-levels">
+  <h2>Learn Kiswahili: Levels 1–4</h2>
+  <p>Choose your level and start learning today!</p>
+
+  <div class="level">
+    <h3>Level 1: Beginner</h3>
+    <p>Greetings, numbers, introductions and basic words.</p>
+    <p><strong>Price: KSh 500</strong></p>
+    <button onclick="showLesson(1)">Start Level 1</button>
+    <div id="lesson1" class="lesson" hidden>
+      <h4>Lesson 1: Greetings</h4>
+      <p>Jambo = Hello</p>
+      <p>Habari yako? = How are you?</p>
+      <p>Nzuri = Fine</p>
+      <p>Asante = Thank you</p>
+      <p>Karibu = Welcome</p>
+    </div>
+  </div>
+
+  <div class="level">
+    <h3>Level 2: Elementary</h3>
+    <p>Daily conversations, family, shopping and verbs.</p>
+    <p><strong>Price: KSh 1,000</strong></p>
+    <button onclick="showLesson(2)">Start Level 2</button>
+    <div id="lesson2" class="lesson" hidden>
+      <h4>Lesson 1: My Family</h4>
+      <p>Familia = Family</p>
+      <p>Mama = Mother</p>
+      <p>Baba = Father</p>
+      <p>Ndugu = Sibling or relative</p>
+      <p>Nina familia = I have a family</p>
+    </div>
+  </div>
+
+  <div class="level">
+    <h3>Level 3: Intermediate</h3>
+    <p>Grammar, tenses, reading and conversations.</p>
+    <p><strong>Price: KSh 1,500</strong></p>
+    <button onclick="showLesson(3)">Start Level 3</button>
+    <div id="lesson3" class="lesson" hidden>
+      <h4>Lesson 1: Tenses</h4>
+      <p>Ninasoma = I am reading/studying</p>
+      <p>Nilisoma = I read/studied</p>
+      <p>Nitasoma = I will read/study</p>
+      <p>Unasoma = You are reading/studying</p>
+    </div>
+  </div>
+
+  <div class="level">
+    <h3>Level 4: Advanced</h3>
+    <p>Fluency, idioms, advanced grammar and essays.</p>
+    <p><strong>Price: KSh 2,000</strong></p>
+    <button onclick="showLesson(4)">Start Level 4</button>
+    <div id="lesson4" class="lesson" hidden>
+      <h4>Lesson 1: Advanced Expressions</h4>
+      <p>Haba na haba hujaza kibaba.</p>
+      <p>Meaning: Little by little fills the measure.</p>
+      <p>Haraka haraka haina baraka.</p>
+      <p>Meaning: Haste makes waste.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+#kiswahili-levels {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f1f8f4;
+  color: #173b2a;
+}
+#kiswahili-levels h2 {
+  text-align: center;
+}
+#kiswahili-levels .level {
+  background: white;
+  border: 1px solid #c8dfd0;
+  border-radius: 12px;
+  padding: 18px;
+  margin: 16px 0;
+}
+#kiswahili-levels button {
+  background: #137547;
+  color: white;
+  border: 0;
+  border-radius: 7px;
+  padding: 12px 18px;
+  font-size: 16px;
+}
+#kiswahili-levels .lesson {
+  background: #e6f4eb;
+  padding: 12px;
+  margin-top: 14px;
+  border-radius: 8px;
+}
+</style>
+
+<script>
+function showLesson(level) {
+  const lesson = document.getElementById("lesson" + level);
+  lesson.hidden = !lesson.hidden;
+}
+</script>
+
 <a href="dashboard.html" style="display:inline-block;background:#087f5b;color:white;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:bold;margin:10px;">
   Student Dashboard
 </a>
