@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn Kiswahili Online Academy</title>
+<style>
+:root{--green:#126b45;--green2:#e8f5ed;--gold:#f4bd45;--ink:#17352a;--muted:#5d7066;--line:#d8e5dc}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f8f5;color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0b5135,#168052);color:#fff;padding:28px 18px;text-align:center}
+header h1{margin:0 0 8px;font-size:clamp(1.7rem,5vw,2.5rem)}header p{margin:0 auto;max-width:760px}
+.wrap{max-width:1050px;margin:auto;padding:18px}.notice{background:#fff6dd;border:1px solid #f1d88a;border-radius:12px;padding:13px 15px;margin:14px 0;color:#574719}
+.level-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px;margin:18px 0}
+.level-card,.panel,.lesson-card{background:white;border:1px solid var(--line);border-radius:14px;padding:17px;box-shadow:0 2px 8px #17352a08}
+.level-card h3{margin:0 0 4px}.price{font-weight:bold;color:var(--green)}button,select{font:inherit}
+button{border:0;border-radius:9px;background:var(--green);color:white;padding:10px 14px;cursor:pointer;font-weight:700}
+button:hover{filter:brightness(.94)}button.secondary{background:#e8f0eb;color:var(--ink)}button:disabled{opacity:.45;cursor:not-allowed}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}.controls select{padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;max-width:100%}
+.progress{height:9px;background:#e1ebe4;border-radius:99px;overflow:hidden;margin:8px 0 14px}.progress span{display:block;height:100%;background:#168052;width:0}
+.lesson-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.tag{font-size:.85rem;background:var(--green2);color:var(--green);padding:4px 9px;border-radius:99px;font-weight:bold}
+h2{line-height:1.25}h3{line-height:1.3}.objectives{background:#f4faf6;border-left:4px solid var(--green);padding:12px 14px;border-radius:6px}
+table{width:100%;border-collapse:collapse;margin:12px 0;background:#fff}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#edf6ef}
+.example{background:#f7f9f7;border-radius:10px;padding:12px 14px;margin:10px 0}.example p{margin:5px 0}
+.question{padding:13px 0;border-bottom:1px solid var(--line)}.question:last-child{border-bottom:0}.question label{display:block;margin:7px 0;cursor:pointer}.question input{margin-right:7px}
+.feedback{padding:13px;border-radius:10px;margin-top:12px}.good{background:#e5f7eb;color:#145a32}.bad{background:#fff0e8;color:#813719}
+.small{color:var(--muted);font-size:.92rem}.lesson-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+footer{text-align:center;padding:25px;color:var(--muted)}.hidden{display:none!important}
+@media(max-width:600px){.wrap{padding:12px}.panel{padding:13px}th,td{padding:7px;font-size:.94rem}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Learn Kiswahili Online Academy</h1>
+  <p>Learn step by step — from beginner foundations to advanced Kiswahili. Study each lesson, practise, and check your understanding.</p>
+</header>
+<main class="wrap">
+  <div class="notice"><strong>Demo learning website:</strong> The prices below are display prices only. This file does not collect M-Pesa payments, create secure student accounts, or lock paid lessons. Those features need a secure backend.</div>
+  <section class="level-grid" id="levelCards"></section>
+  <section class="panel">
+    <div class="lesson-head">
+      <div><span class="tag" id="levelTag">Level 1</span><h2 id="lessonTitle">Lesson 1</h2><p class="small" id="lessonSubtitle"></p></div>
+      <div class="small" id="lessonCount"></div>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+    <div class="controls">
+      <label for="lessonSelect"><strong>Choose lesson:</strong></label>
+      <select id="lessonSelect" aria-label="Choose lesson"></select>
+      <button class="secondary" id="resetBtn" type="button">Reset quiz</button>
+    </div>
+    <article id="lessonContent"></article>
+    <section class="panel" style="margin-top:18px">
+      <h2>Test your understanding</h2>
+      <p class="small">Choose one answer for every question, then press “Mark my answers” to see your score and corrections.</p>
+      <form id="quizForm"></form>
+      <button id="markBtn" type="button">Mark my answers</button>
+      <div id="quizFeedback" aria-live="polite"></div>
+    </section>
+    <div class="lesson-nav">
+      <button class="secondary" id="prevBtn" type="button">← Previous lesson</button>
+      <button id="nextBtn" type="button">Next lesson →</button>
+    </div>
+  </section>
+  <section class="panel" style="margin-top:18px">
+    <h2>Learning progress on this device</h2>
+    <p id="progressText">Complete a lesson quiz to record your best score on this device.</p>
+    <button class="secondary" id="clearProgress" type="button">Clear saved progress</button>
+    <p class="small">Progress uses this browser’s local storage. It does not sync across devices or provide a secure student account.</p>
+  </section>
+</main>
+<footer>Learn Kiswahili • Soma, fanya mazoezi, na uendelee!</footer>
+<script>
+const levels = [
+ {name:"Level 1 — Beginner",price:"KSh 500",desc:"Pronunciation, greetings, vocabulary and simple sentences."},
+ {name:"Level 2 — Elementary",price:"KSh 1,000",desc:"Everyday communication, noun classes and common tenses."},
+ {name:"Level 3 — Intermediate",price:"KSh 1,500",desc:"Longer sentences, grammar, reading and writing."},
+ {name:"Level 4 — Advanced",price:"KSh 2,000",desc:"Fluency, formal language, idioms and persuasive writing."}
+];
+const lessons = [
+[
+{title:"Greetings and introductions",obj:"Greet people appropriately, ask how someone is, and introduce yourself.",sections:[
+["Core vocabulary",["Habari za asubuhi? — Good morning / How is your morning?","Habari za mchana? — Good afternoon / How is your day?","Habari za jioni? — Good evening / How is your evening?","Hujambo? — Hello; are you well? (one person)","Hamjambo? — Hello; are you all well? (several people)","Sijambo. — I am well.","Asante sana. — Thank you very much.","Tafadhali. — Please.","Kwa heri. — Goodbye.","Shikamoo. — A respectful greeting traditionally used for an elder; the response is Marahaba."]],
+["Introducing yourself",["Jina langu ni Amina. — My name is Amina.","Ninaitwa Juma. — I am called Juma.","Ninatoka Kenya. — I come from Kenya.","Ninaishi Nairobi. — I live in Nairobi.","Ninafurahi kukutana nawe. — I am happy to meet you."]],
+["Conversation",["Asha: Habari za asubuhi? — Good morning.","Juma: Nzuri, asante. Habari yako? — Fine, thank you. How are you?","Asha: Nzuri pia. Unaitwa nani? — Fine too. What is your name?","Juma: Ninaitwa Juma. Ninatoka Kenya. — I am called Juma. I come from Kenya."]]
+],q:[
+["What does “Ninatoka Kenya” mean?",["I live in Kenya","I come from Kenya","I am going to Kenya"],1,"“Ninatoka” means “I come from.”"],
+["What is the traditional response to “Shikamoo”?",["Marahaba","Kwa heri","Tafadhali"],0,"“Marahaba” is the traditional response."],
+["Which phrase means “My name is Amina”?",["Ninaishi Amina","Jina langu ni Amina","Habari Amina"],1,"“Jina langu ni…” means “My name is…”"]
+]},
+{title:"Alphabet, sounds and spelling",obj:"Recognise common Kiswahili letter sounds and pronounce words clearly.",sections:[
+["How Kiswahili spelling works",["Kiswahili generally uses the same five vowel letters as English: a, e, i, o, u, but their sounds are more consistent.","a as in baba; e as in embe; i as in sisi; o as in moto; u as in utu.","Pronounce each vowel clearly. Avoid turning a single vowel into a long English-style glide."]],
+["Useful sound combinations",["ch as in chai (tea); sh as in shule (school); ny as in nyama (meat); ng’ as in ng’ombe (cow).","The combination ‘ng’ in words such as ndege is different from ‘ng’ in ng’ombe; listen and practise both carefully.","Break long words into syllables: ki-su-a-hi-li; ma-ra-ha-ba."]],
+["Practice routine",["Read each word slowly, then at normal speed: mama, baba, mtoto, shule, chakula, nyumba.","Write a word after hearing it, then compare each vowel and consonant."]]
+],q:[
+["Which word contains the sound “ch”?",["chai","sasa","mama"],0,"“Chai” begins with ch."],
+["Which word means “school”?",["nyama","shule","nyumba"],1,"“Shule” means school."],
+["Which is a Kiswahili vowel?",["sh","ny","u"],2,"The five vowels are a, e, i, o and u."]
+]},
+{title:"Numbers, dates and time",obj:"Count, state quantities, and ask or answer simple time questions.",sections:[
+["Numbers 0–10",["sifuri — zero; moja — one; mbili — two; tatu — three; nne — four; tano — five; sita — six; saba — seven; nane — eight; tisa — nine; kumi — ten.","Examples: vitabu viwili — two books; watu watatu — three people. Number forms can change with noun classes, so learn them in phrases."]],
+["Days and time",["Jumatatu — Monday; Jumanne — Tuesday; Jumatano — Wednesday; Alhamisi — Thursday; Ijumaa — Friday; Jumamosi — Saturday; Jumapili — Sunday.","Saa ngapi? — What time is it? Saa moja — one o’clock in the traditional Swahili time system; clarify context when speaking internationally.","Leo — today; jana — yesterday; kesho — tomorrow."]],
+["Useful questions",["Una umri wa miaka mingapi? — How old are you?","Nina miaka ishirini. — I am twenty years old.","Tunaonana kesho. — We will see each other tomorrow."]]
+],q:[
+["What does “kesho” mean?",["Yesterday","Tomorrow","Today"],1,"Kesho means tomorrow."],
+["Which day is “Ijumaa”?",["Friday","Sunday","Monday"],0,"Ijumaa is Friday."],
+["What does “Saa ngapi?” ask?",["Where are you?","What is your name?","What time is it?"],2,"Saa ngapi? means What time is it?"]
+]},
+{title:"People and family",obj:"Name family members and describe relationships with simple sentences.",sections:[
+["Family words",["familia — family; mama — mother; baba — father; mtoto — child; watoto — children; dada — sister; kaka — brother; ndugu — sibling/relative; bibi — grandmother or elderly woman; babu — grandfather or elderly man.","Kinship terms can vary by family and region; ndugu is a useful broader term for a relative or sibling."]],
+["Sentence patterns",["Huyu ni mama yangu. — This is my mother.","Huyu ni kaka yangu. — This is my brother.","Nina dada wawili. — I have two sisters.","Familia yangu ina watu watano. — My family has five people.","Yangu means “my” with some noun classes; possessive forms change to agree with the noun."]],
+["Ask and answer",["Una ndugu? — Do you have siblings/relatives?","Ndiyo, nina ndugu wawili. — Yes, I have two siblings.","Hapana, sina dada. — No, I do not have a sister."]]
+],q:[
+["What does “mtoto” mean?",["Child","Grandfather","Mother"],0,"Mtoto means child."],
+["Translate “Huyu ni mama yangu.”",["This is my mother","My mother is coming","Where is my mother?"],0,"Huyu ni mama yangu means This is my mother."],
+["Which word can mean sibling or relative?",["chakula","ndugu","mji"],1,"Ndugu can mean sibling or relative."]
+]},
+{title:"Food, meals and ordering",obj:"Name common foods and make a simple, polite request.",sections:[
+["Food vocabulary",["chakula — food; maji — water; chai — tea; maziwa — milk; wali — rice; ugali — ugali; nyama — meat; samaki — fish; mboga — vegetables; matunda — fruits; mkate — bread.","Ninapenda chai. — I like tea. Ninakula wali. — I am eating rice."]],
+["Polite requests",["Naomba maji, tafadhali. — I would like water, please.","Ningependa chai. — I would like tea.","Bei gani? — What price? / How much?","Hii ni tamu. — This is delicious.","Bila sukari. — Without sugar."]],
+["At a café",["Mteja: Naomba chai na mkate, tafadhali. — Customer: Tea and bread, please.","Mhudumu: Karibu. Unataka sukari? — Server: Welcome. Do you want sugar?","Mteja: Hapana, bila sukari. Asante. — Customer: No, without sugar. Thank you."]]
+],q:[
+["What does “maji” mean?",["Milk","Water","Tea"],1,"Maji means water."],
+["How do you politely ask for water?",["Naomba maji, tafadhali","Maji wapi wewe","Mimi maji"],0,"Naomba… tafadhali is a polite request."],
+["What does “bila sukari” mean?",["Extra sugar","Without sugar","Cold water"],1,"Bila means without; sukari means sugar."]
+]},
+{title:"Places, directions and transport",obj:"Ask where places are and understand simple directions.",sections:[
+["Places",["shule — school; hospitali — hospital; soko — market; kituo — station/stop; barabara — road; benki — bank; choo — toilet; mji — town/city.","Wapi? — Where? Iko wapi? — Where is it?"]],
+["Directions",["kushoto — left; kulia — right; mbele — ahead/in front; nyuma — behind; karibu — near; mbali — far; moja kwa moja — straight ahead.","Hospitali iko wapi? — Where is the hospital? Fuata barabara hii. — Follow this road."]],
+["Getting around",["Ninataka kwenda sokoni. — I want to go to the market.","Basi linaondoka saa ngapi? — What time does the bus leave?","Nishukie hapa, tafadhali. — Please let me get off here."]]
+],q:[
+["What does “kushoto” mean?",["Right","Left","Straight"],1,"Kushoto means left."],
+["How do you ask “Where is the hospital?”",["Hospitali iko wapi?","Hospitali ni nani?","Hospitali saa ngapi?"],0,"Iko wapi? means Where is it?"],
+["What does “moja kwa moja” mean?",["Turn back","Straight ahead","Far away"],1,"Moja kwa moja means straight ahead."]
+]},
+{title:"Pronouns and simple sentences",obj:"Use personal pronouns and form clear basic statements.",sections:[
+["Personal pronouns",["mimi — I/me; wewe — you (singular); yeye — he/she; sisi — we/us; ninyi — you (plural); wao — they/them.","In natural Kiswahili, the subject is often included in the verb, so the pronoun can be omitted when clear."]],
+["Build a sentence",["Mimi ninasoma. — I am studying/reading.","Wewe unasoma. — You are studying/reading.","Yeye anasoma. — He/she is studying/reading.","Sisi tunasoma. — We are studying/reading.","Wao wanasoma. — They are studying/reading."]],
+["Word order",["A simple statement often follows subject + verb + object: Mimi ninasoma kitabu. — I am reading a book.","Ninasoma kitabu. is also natural because ni- already marks “I” in the verb.","Ask a question with rising intonation or a question word: Unasoma nini? — What are you reading?"]]
+],q:[
+["Which word means “we”?",["wao","sisi","yeye"],1,"Sisi means we."],
+["What does “Wao wanasoma” mean?",["They are studying","I am studying","You are studying"],0,"Wa- marks they in this verb form."],
+["What does “Unasoma nini?” mean?",["Who is studying?","What are you reading?","Where do you study?"],1,"Nini means what."]
+]},
+{title:"Present tense and everyday actions",obj:"Describe routines and ongoing actions using common present-tense forms.",sections:[
+["The -na- tense",["A common present/ongoing pattern is subject marker + -na- + verb stem.","ni-na-soma — I am reading/studying; u-na-soma — you are reading/studying; a-na-soma — he/she is reading/studying; tu-na-soma — we are reading/studying.","The exact English translation depends on context; the same form can describe a routine or an action in progress."]],
+["Everyday verbs",["kula — eat; kunywa — drink; kwenda — go; kuja — come; kufanya — do; kufanya kazi — work; kusoma — read/study; kuandika — write; kulala — sleep.","Ninafanya kazi kila siku. — I work every day. Anakunywa maji. — He/she is drinking water."]],
+["Daily routine",["Ninaamka asubuhi. — I wake up in the morning.","Ninakula kifungua kinywa. — I eat breakfast.","Ninaenda kazini. — I go to work.","Ninarudi nyumbani jioni. — I return home in the evening."]]
+],q:[
+["What does “Ninakunywa maji” mean?",["I am drinking water","I am buying water","I am swimming"],0,"Kunywa means drink."],
+["Which marker is used in the common present/ongoing pattern?",["-li-","-ta-","-na-"],2,"-na- commonly marks present or ongoing action."],
+["What does “kulala” mean?",["To write","To sleep","To work"],1,"Kulala means to sleep."]
+]},
+{title:"Negation and asking questions",obj:"Make basic negative sentences and ask useful questions.",sections:[
+["Basic negative forms",["Sijasoma. — I have not studied/read yet. Sisomi. — I do not read/study (habitually).","Sina maji. — I do not have water. Siendi. — I am not going / I do not go.","Negation patterns vary with tense and verb form; learn each common pattern as a whole sentence before generalising."]],
+["Question words",["nani — who; nini — what; wapi — where; lini — when; kwa nini — why; vipi — how; ngapi — how many/how much.","Unaishi wapi? — Where do you live? Unakuja lini? — When are you coming? Kwa nini unasoma Kiswahili? — Why are you learning Kiswahili?"]],
+["Useful exchange",["A: Unaenda sokoni? — Are you going to the market?","B: Hapana, siendi sokoni. — No, I am not going to the market.","A: Unafanya nini? — What are you doing?","B: Ninasoma Kiswahili. — I am studying Kiswahili."]]
+],q:[
+["Which word means “where”?",["nini","wapi","nani"],1,"Wapi means where."],
+["What does “Sina maji” mean?",["I want water","I have water","I do not have water"],2,"Sina means I do not have."],
+["“Kwa nini?” means…",["Why?","When?","How many?"],0,"Kwa nini means why."]
+]},
+{title:"Review and Level 1 assessment",obj:"Combine greetings, vocabulary, basic grammar and everyday communication.",sections:[
+["Revision plan",["Review greetings and introductions, numbers, family, food, places, pronouns and the -na- tense.","Read each Kiswahili sentence aloud, translate it, then make a new sentence using the same pattern.","For example: Ninaandika barua. — I am writing a letter. Change barua to kitabu, jina, or ujumbe to practise new vocabulary."]],
+["Short reading",["Jina langu ni Neema. Ninaishi Mombasa na nina ndugu wawili. Kila asubuhi ninakunywa chai na kula mkate. Baadaye ninaenda kazini. Jioni ninasoma Kiswahili kwa sababu ninataka kuzungumza na watu wengi.","Translation: My name is Neema. I live in Mombasa and have two siblings. Every morning I drink tea and eat bread. Later I go to work. In the evening I study Kiswahili because I want to speak with many people."]],
+["Assessment tip",["Read the passage twice. Identify the person, place, family detail, routine and reason for learning. Then answer the quiz without looking at the translation."]]
+],q:[
+["Where does Neema live?",["Nairobi","Mombasa","Kisumu"],1,"The passage says Ninaishi Mombasa."],
+["How many siblings does Neema have?",["Two","Three","Four"],0,"Nina ndugu wawili means I have two siblings."],
+["Why does Neema study Kiswahili?",["To travel tomorrow","To speak with many people","To buy bread"],1,"She wants to speak with many people."]
+]}
+],
+[
+{title:"Noun classes and singular/plural",obj:"Recognise common noun-class patterns and use noun forms in context.",sections:[
+["Why noun classes matter",["Kiswahili nouns belong to classes that influence agreement on verbs, adjectives, demonstratives and other words.","A common m-/wa- pattern includes mtu — person and watu — people; mtoto — child and watoto — children.","Not every noun follows this pattern. Learn nouns together with their plural forms and the agreement they require."]],
+["Agreement examples",["Mtoto mzuri anasoma. — The good child is studying.","Watoto wazuri wanasoma. — The good children are studying.","The noun, adjective and verb change together: m-/wa- often corresponds to a-/wa- subject agreement."]],
+["Other common patterns",["mti/miti — tree/trees; kitabu/vitabu — book/books; kiti/viti — chair/chairs; gari/magari — car/cars.","Class patterns are useful guides, but there are exceptions and borrowed nouns. Practise complete phrases, not only isolated plurals."]]
+],q:[
+["What is the plural of “mtoto”?",["mitoto","watoto","vitoto"],1,"Mtoto becomes watoto."],
+["Choose the correct sentence for “The children are studying.”",["Mtoto wanasoma","Watoto anasoma","Watoto wanasoma"],2,"Watoto takes wa- subject agreement."],
+["What is the plural of “kitabu”?",["vitabu","watabu","mitabu"],0,"Kitabu becomes vitabu."]
+]},
+{title:"Past tense with -li-",obj:"Describe completed past actions and distinguish them from present actions.",sections:[
+["Past tense pattern",["A common affirmative past form uses a subject marker + -li- + verb stem.","ni-li-soma — I studied/read; u-li-soma — you studied/read; a-li-soma — he/she studied/read; tu-li-soma — we studied/read.","Compare: Ninasoma — I am reading/studying; nilisoma — I read/studied. Context helps determine the natural English translation."]],
+["Examples",["Jana nilitembelea rafiki yangu. — Yesterday I visited my friend.","Tulicheza mpira. — We played football.","Alipika chakula. — He/she cooked food.","Walisafiri jana. — They travelled yesterday."]],
+["Time expressions",["jana — yesterday; wiki iliyopita — last week; mwaka jana — last year; zamani — long ago/formerly.","Use a time phrase to make the time clear: Jana nilifanya kazi. — Yesterday I worked."]]
+],q:[
+["Which marker commonly marks affirmative past tense?",["-na-","-li-","-ta-"],1,"-li- commonly marks the past tense."],
+["Translate “Jana nilisoma.”",["Tomorrow I will study","Yesterday I studied","I am studying now"],1,"Jana means yesterday; nilisoma means I studied/read."],
+["How do you say “we played”?",["Tulicheza","Tunacheza","Tutacheza"],0,"Tu-li-cheza means we played."]
+]},
+{title:"Future tense with -ta-",obj:"Talk about plans, intentions and future events.",sections:[
+["Future tense pattern",["A common future form uses a subject marker + -ta- + verb stem.","ni-ta-soma — I will study/read; u-ta-soma — you will study/read; a-ta-soma — he/she will study/read; wa-ta-soma — they will study/read.","Compare: Ninasoma (I am studying), nilisoma (I studied), nitasoma (I will study)."]],
+["Make plans",["Kesho nitaenda sokoni. — Tomorrow I will go to the market.","Tutakutana saa mbili. — We will meet at two o’clock (traditional Swahili time; clarify context).","Atasoma baada ya chakula. — He/she will study after the meal.","Watasafiri wiki ijayo. — They will travel next week."]],
+["Future time words",["kesho — tomorrow; baadaye — later; hivi karibuni — soon; wiki ijayo — next week; mwezi ujao — next month."]]
+],q:[
+["What does “Nitasoma” mean?",["I studied","I will study","I am not studying"],1,"-ta- commonly marks future."],
+["Which word means “next week”?",["wiki iliyopita","jana","wiki ijayo"],2,"Wiki ijayo means next week."],
+["Complete: Kesho ___ kazi. (Tomorrow I will work.)",["nilifanya","nitafanya","nafanya"],1,"Nita-fanya means I will do/work."]
+]},
+{title:"Adjectives and descriptions",obj:"Describe people and objects with adjectives that agree with noun classes.",sections:[
+["Common adjectives",["kubwa — big; ndogo — small; zuri/nzuri — good/beautiful in appropriate noun-class forms; refu — tall/long; fupi — short; safi — clean; chafu — dirty; mpya — new; -zee — old (for people/objects, with appropriate forms).","Adjectives often take a class agreement prefix: mtoto mdogo, watoto wadogo; kitabu kikubwa, vitabu vikubwa."]],
+["Agreement in phrases",["mtu mzuri — a good person; watu wazuri — good people; nyumba kubwa — a big house; nyumba ndogo — a small house; vitabu vipya — new books.","Do not attach one prefix to every adjective. The correct form depends on the noun class and the adjective."]],
+["Describe your surroundings",["Nyumba yangu ni kubwa. — My house is big.","Nina vitabu vitatu vipya. — I have three new books.","Rafiki yangu ni mchangamfu. — My friend is lively/friendly."]]
+],q:[
+["Choose the correct phrase for “small children.”",["mtoto wadogo","watoto wadogo","watoto mdogo"],1,"Watoto takes the adjective form wadogo."],
+["What does “nyumba kubwa” mean?",["A big house","A new school","A small house"],0,"Nyumba kubwa means a big house."],
+["Which means “new books”?",["kitabu mpya","vitabu vipya","watu vipya"],1,"Vitabu takes vipya."]
+]},
+{title:"Possessives and demonstratives",obj:"Show ownership and indicate which person or object you mean.",sections:[
+["Possessive forms",["my — -angu; your (singular) — -ako; his/her — -ake; our — -etu; your (plural) — -enu; their — -ao.","Possessive forms agree with the noun class: kitabu changu — my book; vitabu vyangu — my books; mtoto wangu — my child; watoto wangu — my children.","Learn the whole phrase because the linking form changes with noun class."]],
+["Demonstratives",["huyu — this person; hao — those people (agreement depends on context); hiki — this (class ki); hivi — these (class vi); hii — this (some noun classes); hizi — these (some noun classes).","Hiki ni kitabu changu. — This is my book. Hivi ni vitabu vyangu. — These are my books."]],
+["Ask about ownership",["Kitabu hiki ni cha nani? — Whose book is this?","Ni changu. — It is mine.","Hii ni simu yake. — This is his/her phone."]]
+],q:[
+["How do you say “my book”?",["kitabu changu","kitabu yangu","kitabu wako"],0,"Kitabu changu is the correct class agreement."],
+["What does “cha nani?” ask?",["Where is it?","Whose?","How many?"],1,"Cha nani? means whose for a noun in this agreement pattern."],
+["Choose the correct phrase for “my children.”",["watoto yangu","watoto wangu","watoto changu"],1,"Watoto wangu means my children."]
+]},
+{title:"Object markers in verbs",obj:"Use object markers to indicate who or what receives an action.",sections:[
+["What object markers do",["An object marker can be included in a verb to refer to the person or thing affected by the action.","Ninakuona. — I see you. (ni-na-ku-ona); anakupenda. — He/she loves you; ninakisoma kitabu. — I am reading it/the book (class agreement matters).","Common person markers include -ni- (me), -ku- (you, singular), -m-/-mw- (him/her in relevant forms), -tu- (us), -wa- (them)."]],
+["Examples in context",["Mwalimu anawafundisha wanafunzi. — The teacher teaches the students.","Ninakusaidia. — I am helping you.","Tunamjua mwalimu. — We know the teacher.","Object markers often appear before the verb root, after tense and subject markers."]],
+["Avoid confusion",["The subject marker tells who does the action; the object marker tells who receives it.","Ninakupenda: ni- = I (subject), -na- = present/ongoing, -ku- = you (object), -penda = love."]]
+],q:[
+["In “Ninakusaidia,” who is being helped?",["I am","You are","They are"],1,"-ku- marks you as the object."],
+["What does a subject marker tell you?",["Who does the action","The location only","The price"],0,"The subject marker identifies the doer."],
+["In “Ninakupenda,” what does -ku- refer to?",["I","You","They"],1,"-ku- refers to you as the object."]
+]},
+{title:"Shopping, prices and quantities",obj:"Ask prices, compare quantities, and shop politely.",sections:[
+["Useful market phrases",["Hii ni bei gani? — What is the price of this? Bei ya kilo moja ni ngapi? — How much is one kilogram?","Ni ghali. — It is expensive. Ni nafuu. — It is affordable/cheap. Naomba punguzo. — I would like a discount.","Nitanunua hii. — I will buy this. Sina pesa za kutosha. — I do not have enough money."]],
+["Quantities and measures",["kilo moja — one kilogram; nusu kilo — half a kilogram; chupa ya maji — a bottle of water; kikombe cha chai — a cup of tea; pakiti moja — one packet.","Measure phrases often use a linking form such as ya/cha/wa depending on the noun class and relationship."]],
+["Market dialogue",["Mteja: Bei ya ndizi ni ngapi? — Customer: How much are the bananas?","Muuzaji: Ni shilingi mia mbili. — Seller: It is two hundred shillings.","Mteja: Naomba punguzo, tafadhali. — Customer: Please give me a discount.","Muuzaji: Sawa. — Seller: Okay."]]
+],q:[
+["How do you ask “How much is this?”",["Hii ni bei gani?","Hii ni nani?","Hii iko lini?"],0,"Hii ni bei gani asks the price."],
+["What does “ghali” mean?",["Affordable","Expensive","Free"],1,"Ghali means expensive."],
+["What is “nusu kilo”?",["One kilo","Half a kilo","Two kilos"],1,"Nusu means half."]
+]},
+{title:"Comparisons, adverbs and frequency",obj:"Compare things and explain how often actions happen.",sections:[
+["Adverbs of frequency",["kila siku — every day; mara nyingi — often; wakati mwingine — sometimes; mara chache — rarely; kamwe — never (often used with appropriate negation).","Ninasoma kila siku. — I study every day. Wakati mwingine tunatembea. — Sometimes we walk."]],
+["Comparisons",["Kuliko — than; zaidi — more; sana — very/a lot; kidogo — a little.","Asha ni mrefu kuliko Juma. — Asha is taller than Juma (ensure the adjective agrees with the person being described).","Kiswahili changu ni bora zaidi sasa. — My Kiswahili is better now."]],
+["Make a comparison",["Kitabu hiki ni kikubwa kuliko kile. — This book is bigger than that one.","Ninafanya mazoezi mara nyingi. — I practise often.","The exact adjective form depends on the noun class; use model sentences and adapt them carefully."]]
+],q:[
+["What does “mara nyingi” mean?",["Often","Never","Yesterday"],0,"Mara nyingi means often."],
+["Which word means “than” in a comparison?",["kwa sababu","kuliko","lakini"],1,"Kuliko means than."],
+["What does “kila siku” mean?",["Every day","Next month","Sometimes"],0,"Kila siku means every day."]
+]},
+{title:"Giving instructions and polite requests",obj:"Give simple instructions, make requests, and respond appropriately in everyday situations.",sections:[
+["Useful instruction forms",["Kaa chini. — Sit down. Simama. — Stand up. Fungua mlango. — Open the door. Funga kitabu. — Close the book.","Tafadhali kaa hapa. — Please sit here. Usikimbie. — Do not run. Msipige kelele. — Do not make noise (plural/formal).","Instruction forms vary depending on whether you speak to one person or several people, and whether the instruction is positive or negative."]],
+["Making requests politely",["Unaweza kunisaidia? — Can you help me? Naomba unielekeze. — Please show me the way. Tafadhali rudia. — Please repeat.","Samahani, unaweza kusema polepole? — Excuse me, can you speak slowly? Sijaelewa. — I have not understood.","A polite request often includes tafadhali, naomba or unaweza…? The right choice depends on context and relationship."]],
+["Classroom dialogue",["Mwanafunzi: Samahani, sijaelewa. Unaweza kurudia? — Student: Excuse me, I have not understood. Can you repeat?","Mwalimu: Ndiyo. Sikiliza kwa makini, kisha jibu swali. — Teacher: Yes. Listen carefully, then answer the question.","Mwanafunzi: Asante kwa kunisaidia. — Student: Thank you for helping me."]]
+],q:[
+["What does “Fungua mlango” mean?",["Close the door","Open the door","Paint the door"],1,"Fungua means open; mlango means door."],
+["Which phrase means “Please repeat”?",["Tafadhali rudia","Ninaenda kesho","Bei gani"],0,"Tafadhali rudia is please repeat."],
+["What does “Sijaelewa” mean?",["I have not understood","I am going home","I have bought it"],0,"Sijaelewa means I have not understood."]
+]},
+{title:"Reading, writing and Level 2 assessment",obj:"Read a short passage, identify key details, and combine grammar from Level 2.",sections:[
+["Reading passage",["Jumatatu iliyopita, Rehema alienda sokoni na dada yake. Walinunua matunda, mboga na kilo mbili za mchele. Matunda yalikuwa mapya lakini samaki walikuwa ghali. Kesho watapika chakula cha familia yao.","Translation: Last Monday, Rehema went to the market with her sister. They bought fruit, vegetables and two kilograms of rice. The fruit was fresh but the fish was expensive. Tomorrow they will cook food for their family."]],
+["Notice the grammar",["alienda — she went (past); walinunua — they bought (past); yalikuwa — they were (agreement with matunda); watapika — they will cook (future).","Time phrases such as Jumatatu iliyopita (last Monday) and kesho (tomorrow) help establish the timeline."]],
+["Writing task",["Write six sentences about a shopping trip. Include where you went, who went with you, what you bought, one price or quantity, one adjective, and what you will do tomorrow."]]
+],q:[
+["Who went to the market with Rehema?",["Her brother","Her sister","Her teacher"],1,"The passage says dada yake, her sister."],
+["What did they buy two kilograms of?",["Rice","Fish","Bananas"],0,"Mchele means rice."],
+["Which form means “they will cook”?",["walipika","wanapika","watapika"],2,"Wa-ta-pika is future tense."]
+]}
+],
+[
+{title:"Advanced noun-class agreement",obj:"Use noun-class agreement more accurately across nouns, adjectives and verbs.",sections:[
+["Agreement is a system",["Noun classes affect several words in a sentence, not just the noun's plural form.","Mti mkubwa umeanguka. — The big tree has fallen. Miti mikubwa imeanguka. — The big trees have fallen.","Kitabu kizuri kimepotea. — The good book has been lost. Vitabu vizuri vimepotea. — The good books have been lost."]],
+["Agreement across clauses",["Watoto waliokuwa wagonjwa wamepona. — The children who were ill have recovered.","Vitabu nilivyonunua vimefika. — The books I bought have arrived.","Agreement may appear on subject markers, adjectives, demonstratives, relative markers and verb forms."]],
+["Study strategy",["Identify the head noun first, then check each word that refers to it. Keep a notebook of noun + adjective + verb examples for each class."]]
+],q:[
+["Choose the correct plural phrase for “big trees.”",["miti mikubwa","miti mkubwa","mti mikubwa"],0,"Miti mikubwa is the correct agreement."],
+["What is the key role of noun class?",["Only changes spelling","Influences agreement across a sentence","Shows past tense only"],1,"Noun classes influence agreement on multiple words."],
+["Which sentence means “The good books have arrived”?",["Kitabu kizuri kimefika","Vitabu vizuri vimefika","Vitabu mzuri wamefika"],1,"Vitabu vizuri vimefika uses class vi agreement."]
+]},
+{title:"Relative clauses",obj:"Describe people and things using common relative constructions.",sections:[
+["What relative clauses do",["Relative clauses add information about a person or thing: “the person who came,” “the book that I bought.”","Mtu aliyekuja ni mwalimu. — The person who came is a teacher.","Kitabu nilichonunua ni kizuri. — The book that I bought is good.","Relative forms vary with noun class and tense; learn common patterns in context."]],
+["Examples",["Mwanafunzi anayesoma sana atafaulu. — The student who studies hard will succeed.","Mahali tulipokutana ni pazuri. — The place where we met is nice.","Chakula kilichopikwa jana kilikuwa kitamu. — The food cooked yesterday was delicious."]],
+["Build a sentence",["Start with a noun, then add a clause that describes it. Example: Rafiki aliyenisaidia amenipigia simu. — The friend who helped me has called me.","Check that the relative marker agrees with the noun being described."]]
+],q:[
+["What does “Mtu aliyekuja” mean?",["The person who came","The person who will come","The person who is leaving"],0,"Aliyekuja means who came."],
+["Which sentence means “The student who studies hard will succeed”?",["Mwanafunzi anayesoma sana atafaulu","Mwanafunzi alisoma jana","Mwanafunzi anataka chakula"],0,"Anayesoma describes the student who studies."],
+["Relative forms usually need to agree with…",["The speaker's age","The noun being described","The price"],1,"Relative forms vary according to noun class and tense."]
+]},
+{title:"Verb extensions",obj:"Understand common verb extensions that change meaning or valency.",sections:[
+["Common extensions",["Verb extensions can modify a verb's meaning or how it relates to other participants. Common examples include causative, applicative, passive, reciprocal and stative patterns.","fundisha — teach (related to fundi/fundisha); andika — write; andikiwa — be written for/by; pendana — love one another.","Forms and meanings vary by verb; do not assume every verb can take every extension."]],
+["Examples in context",["Mwalimu anawafundisha wanafunzi. — The teacher teaches the students (causative-related -sh- form).","Watoto wanapendana. — The children love one another (reciprocal -an-).","Barua imeandikwa. — The letter has been written (passive -w-)."]],
+["Notice the meaning change",["Anapenda — he/she loves; wanapendana — they love one another.","Anaandika barua — he/she writes a letter; barua inaandikwa — the letter is being written."]]
+],q:[
+["Which form expresses “love one another”?",["pendana","pendeka","pendesha"],0,"-an- often marks reciprocal action."],
+["What does “Barua imeandikwa” mean?",["The letter is being/has been written","The letter is expensive","The letter has been sold"],0,"Imeandikwa is a passive/resultative form."],
+["What does a verb extension do?",["Always marks the future","Can change a verb's meaning or structure","Only pluralises nouns"],1,"Extensions can change meaning or participants."]
+]},
+{title:"Conditional sentences",obj:"Express conditions and their possible results.",sections:[
+["Simple conditions",["A condition states what must happen for something else to happen. “Kama” often means if.","Kama utasoma, utafaulu. — If you study, you will succeed.","Kama mvua itanyesha, tutabaki nyumbani. — If it rains, we will stay at home."]],
+["Different time meanings",["Kama ningekuwa na muda, ningekutembelea. — If I had time, I would visit you.","Kama ungekuja mapema, ungemwona. — If you had come early, you would have seen him/her.","Conditional patterns can be subtle; practise each pattern as a complete sentence and pay attention to tense and context."]],
+["Make your own",["Write one real possible condition and one imagined condition. Underline the condition and circle the result."]]
+],q:[
+["What does “kama” often mean?",["Because","If","Although"],1,"Kama often introduces a condition meaning if."],
+["Translate “Kama utasoma, utafaulu.”",["If you study, you will succeed","You studied yesterday","You never study"],0,"Utasoma and utafaulu are future forms."],
+["A conditional sentence links…",["A condition and a result","Two unrelated names","Only two adjectives"],0,"It explains what happens under a condition."]
+]},
+{title:"Passive voice and emphasis",obj:"Recognise passive constructions and when they are useful.",sections:[
+["Active and passive",["Active: Mpishi amepika chakula. — The cook has prepared the food.","Passive: Chakula kimepikwa (na mpishi). — The food has been prepared (by the cook).","The passive places the affected thing at the centre of attention. The agent may be included with na or left out if unknown or unimportant."]],
+["More examples",["Barua imeandikwa. — The letter has been written.","Daraja linajengwa. — The bridge is being built.","Sheria zilipitishwa. — The laws were passed.","Verb form and agreement change with the subject and tense."]],
+["When to use it",["Use passive constructions when the action or result matters more than who performed it, such as reports, announcements and formal explanations."]]
+],q:[
+["Which is passive?",["Mpishi amepika chakula","Chakula kimepikwa","Mpishi anapika"],1,"Chakula kimepikwa is passive."],
+["Why use the passive?",["To focus on the affected thing or action","To always make a sentence a question","To change a noun to plural"],0,"Passive voice can foreground the affected thing."],
+["What does “Daraja linajengwa” mean?",["The bridge is being built","The bridge is old","The bridge was sold"],0,"Linajengwa means is being built."]
+]},
+{title:"Reported speech",obj:"Report what another person said, asked or instructed.",sections:[
+["Direct and reported speech",["Direct: Asha alisema, “Ninaumwa.” — Asha said, “I am ill.”","Reported: Asha alisema kwamba alikuwa mgonjwa. — Asha said that she was ill.","“Kwamba” often introduces a reported statement. Pronouns and tense may shift depending on context and when the report is made."]],
+["Reporting questions",["Aliuliza, “Unaenda wapi?” — He/she asked, “Where are you going?”","Aliuliza nilikuwa naenda wapi. — He/she asked where I was going.","Reported questions normally use statement word order rather than copying the direct question's intonation."]],
+["Reporting instructions",["Mwalimu alisema, “Fungueni vitabu.” — The teacher said, “Open your books.”","Mwalimu aliwaambia wanafunzi wafungue vitabu. — The teacher told the students to open their books."]]
+],q:[
+["Which word often introduces a reported statement?",["kwamba","jana","chini"],0,"Kwamba can introduce a reported statement."],
+["Reported questions usually use…",["statement-style word order","only future tense","no verbs"],0,"They normally use statement-style word order."],
+["What does “Aliuliza” mean?",["He/she asked","He/she bought","He/she slept"],0,"Aliuliza means he/she asked."]
+]},
+{title:"Reading comprehension and inference",obj:"Read longer passages, distinguish explicit facts from implied meaning.",sections:[
+["Reading passage",["Mji ulipokumbwa na mafuriko, wakazi walishirikiana kuondoa maji na kusaidia familia zilizohamishwa. Ingawa kazi ilikuwa ngumu, viongozi wa eneo hilo waliratibu chakula na malazi. Tukio hilo liliwakumbusha watu umuhimu wa maandalizi na ushirikiano.","Translation: When the town was hit by floods, residents worked together to remove water and help displaced families. Although the work was difficult, local leaders coordinated food and shelter. The event reminded people of the importance of preparation and cooperation."]],
+["Explicit facts",["The event was flooding. Residents helped remove water and support displaced families. Leaders coordinated food and shelter.","An explicit fact is directly stated in the passage."]],
+["Inference",["The passage suggests that cooperation helps communities respond to emergencies. This idea is inferred from the actions described, even though the final sentence states the lesson more generally.","When answering an inference question, cite details from the passage that support your conclusion."]]
+],q:[
+["What event affected the town?",["A celebration","Floods","A sports match"],1,"The passage says the town was hit by floods."],
+["What did local leaders coordinate?",["Food and shelter","A new school term","A music festival"],0,"They coordinated food and shelter."],
+["What lesson does the passage support?",["Cooperation helps in emergencies","Preparation is never useful","People should avoid helping"],0,"The passage emphasises preparation and cooperation."]
+]},
+{title:"Paragraphs, cohesion and linking words",obj:"Write connected paragraphs using appropriate transitions and clear structure.",sections:[
+["Paragraph structure",["A strong paragraph usually has a topic sentence, supporting details or examples, and a closing sentence.","Keep one main idea per paragraph. Arrange details in a logical order and remove repeated or irrelevant sentences."]],
+["Linking words",["kwa sababu — because; kwa hiyo — therefore; hata hivyo — however; ingawa — although; kwanza — first; baadaye — later; mwisho — finally; pia — also.","Nilichelewa kwa sababu basi lilifika kuchelewa. — I was late because the bus arrived late.","Mvua ilinyesha; hata hivyo, tulifika. — It rained; however, we arrived."]],
+["Model paragraph",["Kusoma ni muhimu kwa sababu huongeza maarifa. Kwanza, mtu hujifunza maneno mapya. Pia, kusoma husaidia kuboresha uandishi. Kwa hiyo, wanafunzi wanapaswa kusoma mara kwa mara.","Translation: Reading is important because it increases knowledge. First, a person learns new words. Also, reading helps improve writing. Therefore, students should read regularly."]]
+],q:[
+["What does “hata hivyo” mean?",["However","Because","Finally"],0,"Hata hivyo means however."],
+["A topic sentence usually…",["states the paragraph's main idea","lists every source","ends the whole book"],0,"It introduces the main idea."],
+["What does “kwa hiyo” mean?",["Therefore","Yesterday","Although"],0,"Kwa hiyo means therefore."]
+]},
+{title:"Formal and informal registers",obj:"Choose language appropriate to the audience and situation.",sections:[
+["Register and audience",["Informal language suits relaxed conversations with friends. Formal language is useful in official letters, public presentations, academic work and professional settings.","Greetings, titles, politeness and word choice can signal respect. Shikamoo/Marahaba is a traditional respectful exchange in many contexts."]],
+["Examples",["Informal: Habari? Unaendeleaje? — Hi, how are things?","More formal: Shikamoo; naomba kuwasilisha ombi langu. — Respectful greeting; I would like to submit my request.","Tafadhali and naomba can help make requests more polite, but the best phrasing depends on the setting."]],
+["Choose with care",["Consider who is listening, your relationship, the purpose, and whether the message is spoken or written. Avoid assuming that one phrase is appropriate in every region or situation."]]
+],q:[
+["Where is formal register especially useful?",["An official letter","Only texting a close friend","Only joking"],0,"Formal register is useful in official communication."],
+["What does register depend on?",["Audience and situation","The weather only","The length of a person's name"],0,"Register should suit audience and context."],
+["Which phrase can make a request polite?",["naomba","jana","chini"],0,"Naomba means I request/would like."]
+]},
+{title:"Speaking, debate and Level 3 assessment",obj:"Build a supported argument and combine grammar in extended communication.",sections:[
+["Building an argument",["State your position, give reasons, support each reason with an example, consider another viewpoint, and finish with a conclusion.","Ninaamini kuwa… — I believe that…; kwa mfano — for example; kwa upande mwingine — on the other hand; kwa hiyo — therefore.","A strong argument is respectful and supported by reasons rather than insults."]],
+["Model response",["Ninaamini kuwa kusoma lugha mpya ni muhimu. Kwanza, husaidia watu kuwasiliana na jamii tofauti. Pili, huongeza nafasi za kujifunza na kufanya kazi. Kwa upande mwingine, kujifunza kunahitaji muda na mazoezi. Kwa hiyo, wanafunzi wanapaswa kuweka malengo na kufanya mazoezi kila siku.","Translation: I believe learning a new language is important. First, it helps people communicate with different communities. Second, it increases opportunities to study and work. On the other hand, learning requires time and practice. Therefore, students should set goals and practise every day."]],
+["Speaking task",["Prepare a one-minute talk: “Why is Kiswahili useful?” Include a clear opinion, two reasons, one example and a conclusion."]]
+],q:[
+["What does “kwa upande mwingine” mean?",["On the other hand","In the morning","For sale"],0,"It introduces a contrasting point."],
+["A supported argument should include…",["Reasons and examples","Only insults","Unrelated words"],0,"Reasons and examples support a position."],
+["What does “Ninaamini kuwa” mean?",["I believe that","I forgot that","I bought that"],0,"Ninaamini kuwa means I believe that."]
+]}
+],
+[
+{title:"Idioms and proverbs",obj:"Interpret common proverbs and use figurative language appropriately.",sections:[
+["Proverbs carry cultural knowledge",["Haba na haba hujaza kibaba. — Little by little fills the measure; steady effort accumulates.","Haraka haraka haina baraka. — Haste makes waste; rushing can lead to mistakes.","Asiyesikia la mkuu huvunjika guu. — One who ignores wise advice may suffer consequences. Interpret proverbs in context rather than word-for-word only."]],
+["Idioms and figurative meaning",["Anapiga moyo konde. — He/she steels their heart or gathers courage.","Kula chumvi nyingi — literally “eat a lot of salt”; figuratively, to have much experience in some contexts.","Idioms can be regional and context-sensitive. Confirm meaning from surrounding sentences and reliable speakers."]],
+["Use carefully",["A proverb can make a speech memorable, but too many may distract from the main point. Explain the idea in plain language when addressing learners unfamiliar with the expression."]]
+],q:[
+["What lesson does “Haba na haba hujaza kibaba” express?",["Small efforts accumulate","Never work slowly","Food is always expensive"],0,"It expresses the value of steady small efforts."],
+["Proverbs should be interpreted…",["only word-for-word","in context","without considering meaning"],1,"Context helps reveal figurative meaning."],
+["What can “Haraka haraka haina baraka” warn against?",["Rushing carelessly","Learning carefully","Helping others"],0,"It warns that haste can lead to poor results."]
+]},
+{title:"Formal reports and letters",obj:"Organise professional writing with a clear purpose, structure and tone.",sections:[
+["A formal letter",["A formal letter commonly includes the sender's details, date, recipient, subject, respectful greeting, clear body, closing and signature. The exact format depends on the institution.","Use a concise subject line and state your purpose early. Keep each paragraph focused on one point."]],
+["Useful phrases",["Ninaandika barua hii kuomba… — I am writing this letter to request…","Kwa heshima, naomba… — Respectfully, I request…","Ningependa kufahamisha kuwa… — I would like to inform you that…","Asante kwa kuzingatia ombi langu. — Thank you for considering my request."]],
+["Report structure",["A report may include a title, purpose, background, findings, conclusion and recommendations. Use factual language, headings and evidence.","Distinguish what you observed from what you infer. Check dates, names, figures and spelling before submitting."]]
+],q:[
+["A formal letter should state its purpose…",["clearly and early","only in an unrelated footnote","not at all"],0,"The purpose should be clear to the reader."],
+["What does “Ninaandika barua hii kuomba…” mean?",["I am writing this letter to request…","I am closing the market…","I am travelling tomorrow…"],0,"It introduces the purpose of a request letter."],
+["A report should distinguish observations from…",["inferences","paper size","greetings only"],0,"Reports should separate facts from interpretation."]
+]},
+{title:"Academic vocabulary and precise expression",obj:"Express abstract ideas accurately and support claims with clear language.",sections:[
+["Precision matters",["Choose a word that communicates the exact idea. Avoid repeating a vague word when a more specific one is available.","sababu — reason/cause; matokeo — results; ushahidi — evidence; mtazamo — viewpoint; mazingira — environment/context; maendeleo — development; changamoto — challenge; suluhisho — solution."]],
+["Useful academic phrases",["Ushahidi unaonyesha kuwa… — The evidence shows that…","Kwa mujibu wa… — According to…","Matokeo ya utafiti yanaashiria… — The research results indicate…","Hata hivyo, ni muhimu kutambua kuwa… — However, it is important to recognise that…"]],
+["Support a claim",["Claim: Kusoma mara kwa mara huboresha msamiati. — Reading regularly improves vocabulary.","Support: Msomaji hukutana na maneno katika miktadha tofauti. — A reader encounters words in different contexts.","Conclusion: Kwa hiyo, mazoea ya kusoma yanaweza kusaidia kujifunza lugha. — Therefore, reading habits can support language learning."]]
+],q:[
+["What does “ushahidi” mean?",["Evidence","Weather","Family"],0,"Ushahidi means evidence."],
+["Which phrase means “According to…”?",["Kwa mujibu wa…","Kwa heri…","Saa ngapi…"],0,"Kwa mujibu wa introduces a source or authority."],
+["A strong academic claim should be…",["supported by evidence","based only on insults","unrelated to the topic"],0,"Evidence supports academic claims."]
+]},
+{title:"Nuance, politeness and disagreement",obj:"Disagree respectfully and express degrees of certainty.",sections:[
+["Expressing an opinion",["Kwa maoni yangu… — In my opinion…; ninaelewa hoja yako, lakini… — I understand your point, but…; huenda ikawa… — it may be that…; nina shaka kuwa… — I doubt that…","These expressions can soften disagreement and show that a claim is a viewpoint rather than an unquestionable fact."]],
+["Respectful disagreement",["Ninakubaliana nawe kwa sehemu. — I partly agree with you.","Ninaona suala hili kwa namna tofauti. — I see this issue differently.","Je, tunaweza kuzingatia ushahidi mwingine? — Could we consider other evidence?","Avoid attacking the person. Address the idea, evidence and reasoning."]],
+["Degrees of certainty",["Ni wazi kuwa… — It is clear that…; inawezekana kuwa… — it is possible that…; huenda… — perhaps/may; hakuna ushahidi wa kutosha kuhitimisha… — there is insufficient evidence to conclude…","Choose a level of certainty that matches the evidence available."]]
+],q:[
+["Which phrase expresses partial agreement?",["Ninakubaliana nawe kwa sehemu","Sijui jina lako","Nenda nyumbani"],0,"It means I partly agree with you."],
+["A respectful disagreement should focus on…",["ideas and evidence","personal insults","the person's appearance"],0,"Discuss ideas and evidence rather than attacking people."],
+["What does “inawezekana kuwa” mean?",["It is possible that","It is impossible to learn","It was yesterday"],0,"Inawezekana kuwa expresses possibility."]
+]},
+{title:"Literary devices and imagery",obj:"Recognise figurative language and explain its effect on a reader.",sections:[
+["Common devices",["Tashbihi (simile) compares using words such as kama — like/as. Example: Ana nguvu kama simba. — He/she is as strong as a lion.","Sitiari (metaphor) describes one thing as another figuratively. Example: Yeye ni simba vitani. — He/she is a lion in battle (brave).","Personification gives human qualities to non-human things. Example: Upepo uliimba usiku. — The wind sang at night."]],
+["Imagery and mood",["Sensory details help readers imagine sound, sight, touch, taste or smell. Word choice can create a peaceful, tense, joyful or gloomy mood.","Ask: What image is created? Which words create it? How does it affect the reader?"]],
+["Interpretation",["Do not assume every figurative phrase has one universal meaning. Use the text, situation and cultural context to explain a plausible interpretation."]]
+],q:[
+["“Ana nguvu kama simba” is an example of…",["simile/tashbihi","a date","a question"],0,"Kama explicitly compares the person to a lion."],
+["Personification gives human qualities to…",["non-human things","only dates","only numbers"],0,"Personification makes non-human things act or feel like humans."],
+["When interpreting imagery, consider…",["word choice and context","only the title's length","nothing about the text"],0,"Word choice and context support interpretation."]
+]},
+{title:"Regional variation and language in context",obj:"Recognise that Kiswahili varies across communities and situations.",sections:[
+["Variation is natural",["Kiswahili is used across multiple countries and communities. Accent, vocabulary, idioms and some expressions can differ by place, age, setting and speaker.","Standard Kiswahili is useful in education and formal writing, while local usage may be natural in everyday conversation. Neither every regional expression nor every accent should be treated as an error."]],
+["Choosing an expression",["Consider your audience and purpose. If a word is unfamiliar, politely ask: Neno hili lina maana gani katika muktadha huu? — What does this word mean in this context?","You can also ask: Unaweza kueleza kwa maneno mengine? — Can you explain it in other words?"]],
+["Language and respect",["Avoid mocking accents or assuming a person's education from their variety of language. Listening carefully and asking respectful questions helps communication."]]
+],q:[
+["Why can Kiswahili expressions differ?",["Communities and contexts vary","Every speaker must use identical words","Language never changes"],0,"Languages vary by community, place and situation."],
+["What does “Unaweza kueleza kwa maneno mengine?” mean?",["Can you explain it in other words?","Where is the bus?","How much is it?"],0,"It asks for a rephrasing."],
+["How should regional varieties be treated?",["With respect and context","As a reason to mock speakers","As always incorrect"],0,"Variation is a natural part of language."]
+]},
+{title:"Public speaking and persuasive speeches",obj:"Plan a clear speech with an audience-aware opening, argument and conclusion.",sections:[
+["Speech structure",["Opening: greet the audience and introduce the issue. Body: present two or three main points with examples. Conclusion: summarise and give a clear final message.","Use signposts: kwanza (first), pili (second), kwa mfano (for example), kwa hiyo (therefore), kwa kumalizia (in conclusion)."]],
+["Persuasive language",["Ni muhimu kutambua kuwa… — It is important to recognise that…","Ninawasihi tu… — I urge you to…","Tukishirikiana, tunaweza… — If we work together, we can…","Support persuasion with credible examples and fair reasoning, not exaggeration alone."]],
+["Practice outline",["Topic: Keeping the environment clean. Opening: state the problem. Point 1: health benefits. Point 2: shared responsibility. Example: proper waste disposal. Conclusion: one practical action the audience can take."]]
+],q:[
+["What should a speech conclusion do?",["Summarise the main message","Introduce an unrelated topic","Repeat every sentence exactly"],0,"A conclusion reinforces the main message."],
+["What does “kwa kumalizia” mean?",["In conclusion","At the market","Last year"],0,"Kwa kumalizia signals a conclusion."],
+["Persuasive claims should be supported by…",["credible examples and reasoning","only exaggeration","personal attacks"],0,"Evidence and reasoning strengthen persuasion."]
+]},
+{title:"Editing, proofreading and common errors",obj:"Revise writing for grammar, agreement, clarity and punctuation.",sections:[
+["Edit in stages",["First check meaning and structure. Next check noun-class agreement and verb forms. Then check spelling, punctuation, paragraphing and repeated words.","Read the work aloud to find awkward sentences. Ask another reader to identify unclear sections."]],
+["A practical checklist",["Does every paragraph have a clear purpose? Do subject and verb forms agree? Are tense and time expressions consistent? Are names and figures accurate? Have you used punctuation consistently?"]],
+["Example correction",["Less clear: Jana nitakwenda sokoni na nilinunua matunda. The time markers and verb forms conflict if both actions are intended to occur yesterday.","Clearer: Jana nilienda sokoni na kununua matunda. — Yesterday I went to the market and bought fruit.","Or: Kesho nitaenda sokoni kununua matunda. — Tomorrow I will go to the market to buy fruit."]]
+],q:[
+["Proofreading should check…",["grammar, spelling and clarity","only the page colour","only the writer's age"],0,"Proofreading checks language and presentation."],
+["Why revise tense consistency?",["To make the timeline clear","To remove all verbs","To make every sentence a question"],0,"Consistent tense helps readers follow events."],
+["What does “nilienda” mean?",["I went","I will go","I am going"],0,"Ni-li-enda is a past form meaning I went."]
+]},
+{title:"Professional and workplace Kiswahili",obj:"Use clear, polite Kiswahili for workplace requests and collaboration.",sections:[
+["Workplace expressions",["Tafadhali nitumie taarifa hizo. — Please send me that information.","Tunaweza kupanga mkutano lini? — When can we schedule a meeting?","Ningependa kufafanua jambo moja. — I would like to clarify one thing.","Asante kwa ushirikiano wako. — Thank you for your cooperation."]],
+["Meetings and follow-up",["Ajenda — agenda; mkutano — meeting; taarifa — information/report; makubaliano — agreement; hatua zinazofuata — next steps; muda wa mwisho — deadline.","Kwa muhtasari, tumekubaliana kuwa… — In summary, we have agreed that…","Nitawasilisha taarifa kufikia Ijumaa. — I will submit the report by Friday."]],
+["Professional tone",["Be concise, respectful and specific. State the action required, any deadline, and relevant background. Confirm important agreements in writing."]]
+],q:[
+["What does “mkutano” mean?",["Meeting","Family","Fruit"],0,"Mkutano means meeting."],
+["Which phrase means “next steps”?",["hatua zinazofuata","chakula cha jioni","habari za asubuhi"],0,"Hatua zinazofuata means next steps."],
+["A professional request should be…",["clear and respectful","vague and insulting","unrelated to the task"],0,"Clear, respectful requests are more effective."]
+]},
+{title:"Capstone: advanced reading and final assessment",obj:"Combine comprehension, grammar, argumentation and formal expression.",sections:[
+["Capstone passage",["Elimu ya lugha hufungua fursa za mawasiliano na ushirikiano. Hata hivyo, kufikia ufasaha kunahitaji zaidi ya kukariri msamiati; mwanafunzi anapaswa kusoma, kusikiliza, kuzungumza na kuandika mara kwa mara. Aidha, makosa yanapaswa kuchukuliwa kama sehemu ya mchakato wa kujifunza, mradi mwanafunzi ayachunguze na kujifunza kutokana nayo. Kwa hiyo, mpango bora huunganisha mazoezi ya kila siku, maoni ya mwalimu na tathmini ya maendeleo.","Translation: Language education opens opportunities for communication and cooperation. However, achieving fluency requires more than memorising vocabulary; a learner should read, listen, speak and write regularly. Furthermore, mistakes should be treated as part of the learning process, provided the learner examines them and learns from them. Therefore, a good plan combines daily practice, teacher feedback and progress assessment."]],
+["Analyse the argument",["Main claim: language learning creates opportunities, but fluency needs several kinds of practice.","Supporting details: reading, listening, speaking, writing, reflecting on errors, teacher feedback and assessment.","Linking words: hata hivyo (however), aidha (furthermore), kwa hiyo (therefore), mradi (provided that)."]],
+["Final writing task",["Write a 200–300 word Kiswahili essay: “Njia bora za kujifunza lugha mpya” (The best ways to learn a new language). Include an introduction, at least three supporting points, examples, linking words and a conclusion. Revise for grammar, clarity and paragraph structure."]]
+],q:[
+["According to the passage, fluency requires…",["memorising words only","reading, listening, speaking and writing","avoiding mistakes completely"],1,"The passage explicitly lists all four skills."],
+["What does “hata hivyo” signal?",["Contrast","A person's age","A price"],0,"Hata hivyo means however and signals contrast."],
+["What should a learner do with mistakes?",["Examine them and learn from them","Never practise again","Hide every mistake"],0,"The passage says mistakes can support learning when examined."]
+]}
+]
+];
+let currentLevel=0,currentLesson=0;
+const STORAGE_KEY="learnKiswahiliAcademyProgressV1";
+function getProgress(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")}catch(e){return {}}}
+function saveProgress(p){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(p))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderLevelCards(){
+ document.getElementById("levelCards").innerHTML=levels.map((l,i)=>`<div class="level-card"><span class="tag">Level ${i+1}</span><h3>${l.name}</h3><p>${l.desc}</p><p class="price">${l.price}</p><button type="button" onclick="chooseLevel(${i})">Open level</button></div>`).join("");
+}
+function chooseLevel(i){currentLevel=i;currentLesson=0;renderLesson();document.querySelector(".panel").scrollIntoView({behavior:"smooth",block:"start"})}
+function renderLesson(){
+ const levelLessons=lessons[currentLevel], lesson=levelLessons[currentLesson];
+ document.getElementById("levelTag").textContent=levels[currentLevel].name;
+ document.getElementById("lessonTitle").textContent=`Lesson ${currentLesson+1}: ${lesson.title}`;
+ document.getElementById("lessonSubtitle").textContent=lesson.obj;
+ document.getElementById("lessonCount").textContent=`${currentLesson+1} of ${levelLessons.length}`;
+ document.getElementById("progressBar").style.width=`${(currentLesson+1)/levelLessons.length*100}%`;
+ document.getElementById("lessonSelect").innerHTML=levelLessons.map((x,i)=>`<option value="${i}" ${i===currentLesson?"selected":""}>${i+1}. ${esc(x.title)}</option>`).join("");
+ document.getElementById("lessonContent").innerHTML=lesson.sections.map(([heading,items])=>`<section><h3>${esc(heading)}</h3><div class="example">${items.map(t=>`<p>${esc(t)}</p>`).join("")}</div></section>`).join("");
+ document.getElementById("quizForm").innerHTML=lesson.q.map((q,i)=>`<div class="question"><strong>${i+1}. ${esc(q[0])}</strong>${q[1].map((opt,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${esc(opt)}</label>`).join("")}</div>`).join("");
+ document.getElementById("quizFeedback").innerHTML="";
+ document.getElementById("prevBtn").disabled=currentLesson===0;
+ document.getElementById("nextBtn").textContent=currentLesson===levelLessons.length-1?(currentLevel===3?"Review Level 4":"Next level →"):"Next lesson →";
+ document.getElementById("nextBtn").disabled=currentLesson===levelLessons.length-1&&currentLevel===3;
+}
+function markQuiz(){
+ const lesson=lessons[currentLevel][currentLesson];let score=0,answered=0,details=[];
+ lesson.q.forEach((q,i)=>{const chosen=document.querySelector(`input[name="q${i}"]:checked`);if(chosen)answered++;const ok=chosen&&Number(chosen.value)===q[2];if(ok)score++;details.push(`<p><strong>${i+1}. ${ok?"Correct":"Review"}:</strong> ${esc(q[3])}</p>`)});
+ if(answered<lesson.q.length){document.getElementById("quizFeedback").innerHTML=`<div class="feedback bad">You answered ${answered} of ${lesson.q.length} questions. Answer all questions, then mark again.<br>${details.join("")}</div>`;return}
+ const pct=Math.round(score/lesson.q.length*100);const p=getProgress();const key=`${currentLevel}-${currentLesson}`;p[key]=Math.max(p[key]||0,pct);saveProgress(p);
+ document.getElementById("quizFeedback").innerHTML=`<div class="feedback ${pct>=70?"good":"bad"}"><h3>Your score: ${score}/${lesson.q.length} (${pct}%)</h3><p>${pct>=70?"Well done! Review the explanations, then continue.":"Keep practising. Read the lesson again and retry the quiz."}</p>${details.join("")}</div>`;
+ updateProgress();
+}
+function updateProgress(){
+ const p=getProgress(), keys=Object.keys(p), total=lessons.reduce((s,l)=>s+l.length,0);
+ const done=keys.filter(k=>Number(p[k])>=0).length;
+ const avg=keys.length?Math.round(keys.reduce((s,k)=>s+p[k],0)/keys.length):0;
+ document.getElementById("progressText").textContent=`Quiz attempts recorded for ${done} of ${total} lessons. Average best score across attempted lessons: ${avg}%.`;
+}
+document.getElementById("lessonSelect").addEventListener("change",e=>{currentLesson=Number(e.target.value);renderLesson()});
+document.getElementById("markBtn").addEventListener("click",markQuiz);
+document.getElementById("resetBtn").addEventListener("click",()=>{document.getElementById("quizForm").reset();document.getElementById("quizFeedback").innerHTML=""});
+document.getElementById("prevBtn").addEventListener("click",()=>{if(currentLesson>0){currentLesson--;renderLesson()}});
+document.getElementById("nextBtn").addEventListener("click",()=>{if(currentLesson<lessons[currentLevel].length-1){currentLesson++;renderLesson()}else if(currentLevel<3){chooseLevel(currentLevel+1)}});
+document.getElementById("clearProgress").addEventListener("click",()=>{if(confirm("Clear all quiz progress saved on this device?")){try{localStorage.removeItem(STORAGE_KEY)}catch(e){}updateProgress()}});
+renderLevelCards();renderLesson();updateProgress();
+</script>
+</body>
+</html>
