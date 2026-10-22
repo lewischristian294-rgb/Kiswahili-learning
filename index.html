@@ -1,1 +1,294 @@
+
+<style>
+/* LEARN KISWAHILI - HOMEPAGE */
+.lk-home {
+  font-family: Arial, sans-serif;
+  color: #172033;
+  line-height: 1.7;
+}
+.lk-home * { box-sizing: border-box; }
+.lk-home a { text-decoration: none; }
+.lk-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 5%;
+  background: #fff;
+  flex-wrap: wrap;
+}
+.lk-logo {
+  color: #087f5b;
+  font-size: 21px;
+  font-weight: 800;
+}
+.lk-nav-links {
+  display: flex;
+  gap: 17px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.lk-nav-links a { color: #263448; font-size: 14px; }
+.lk-btn {
+  display: inline-block;
+  padding: 12px 23px;
+  border-radius: 8px;
+  background: #ffcf33;
+  color: #172033 !important;
+  font-weight: bold;
+  margin: 7px 5px 7px 0;
+  text-align: center;
+}
+.lk-btn-green { background: #087f5b; color: white !important; }
+.lk-hero {
+  background: linear-gradient(135deg,#086747,#11966d);
+  color: white;
+  text-align: center;
+  padding: 75px 7% 80px;
+}
+.lk-hero h1 {
+  font-size: clamp(34px,6vw,56px);
+  line-height: 1.15;
+  margin: 0 auto 18px;
+  max-width: 850px;
+}
+.lk-hero p {
+  max-width: 680px;
+  margin: 0 auto 20px;
+  font-size: 18px;
+  color: #edfff7;
+}
+.lk-tag {
+  display: inline-block;
+  background: #ffffff20;
+  padding: 7px 14px;
+  border-radius: 30px;
+  margin-bottom: 18px;
+}
+.lk-section { padding: 55px 6%; }
+.lk-light { background: #f2f7f5; }
+.lk-heading { text-align: center; margin: 0 auto 32px; max-width: 720px; }
+.lk-heading h2 { font-size: 29px; line-height: 1.3; }
+.lk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 20px;
+}
+.lk-card {
+  background: white;
+  border: 1px solid #e3eae6;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 5px 18px #102c1a0b;
+}
+.lk-icon { font-size: 34px; }
+.lk-card h3 { margin: 9px 0; }
+.lk-card p { color: #596579; font-size: 15px; }
+.lk-card a { color: #087f5b; font-weight: bold; }
+.lk-feature {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 35px;
+  align-items: center;
+}
+.lk-feature h2 { font-size: 30px; line-height: 1.3; }
+.lk-feature li { margin: 10px 0; }
+.lk-level {
+  border-top: 4px solid #087f5b;
+}
+.lk-cta {
+  background: #e1f4eb;
+  text-align: center;
+  padding: 55px 7%;
+}
+.lk-cta h2 { font-size: 30px; }
+.lk-footer {
+  background: #15251f;
+  color: #e5f1eb;
+  text-align: center;
+  padding: 28px 15px;
+  font-size: 14px;
+}
+.lk-footer a { color: #ffcf33; margin: 0 7px; }
+@media(max-width:600px) {
+  .lk-nav { justify-content: center; }
+  .lk-nav-links { justify-content: center; gap: 12px; }
+  .lk-hero { padding: 55px 6%; }
+  .lk-section { padding: 40px 5%; }
+}
+</style>
+
+<div class="lk-home">
+
+  <!-- NAVIGATION -->
+  <nav class="lk-nav">
+    <a class="lk-logo" href="index.html">🇰🇪 Learn Kiswahili</a>
+    <div class="lk-nav-links">
+      <a href="#why-learn">Why Learn?</a>
+      <a href="#lessons">Lessons</a>
+      <a href="#features">Study Tools</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- INTRODUCTION -->
+  <header class="lk-hero">
+    <span class="lk-tag">Karibu! Welcome to Learn Kiswahili</span>
+    <h1>Speak Kiswahili with Confidence.</h1>
+    <p>
+      From your first Jambo to confident everyday conversations,
+      learn Kiswahili step by step with practical lessons,
+      pronunciation practice and interactive quizzes.
+    </p>
+    <a class="lk-btn" href="#lessons">Start Learning →</a>
+    <a class="lk-btn" href="dashboard.html">Open Dashboard</a>
+    <p style="font-size:14px;margin-top:18px;">
+      Beginner-friendly • Practical Kenyan Kiswahili • Learn at your pace
+    </p>
+  </header>
+
+  <!-- WHY LEARN -->
+  <section class="lk-section" id="why-learn">
+    <div class="lk-heading">
+      <h2>Learn Kiswahili the Practical Way</h2>
+      <p>Build real communication skills through lessons
+      designed to help you understand, speak, read and write.</p>
+    </div>
+    <div class="lk-grid">
+      <article class="lk-card">
+        <div class="lk-icon">🗣️</div>
+        <h3>Speak from Day One</h3>
+        <p>Learn greetings, introductions and useful expressions
+        you can use with friends, family and in everyday life.</p>
+      </article>
+      <article class="lk-card">
+        <div class="lk-icon">📚</div>
+        <h3>Understand Every Lesson</h3>
+        <p>Explore vocabulary, grammar rules, sentence building,
+        examples and conversations with English explanations.</p>
+      </article>
+      <article class="lk-card">
+        <div class="lk-icon">✅</div>
+        <h3>Test Your Knowledge</h3>
+        <p>Answer questions after each lesson, check your answers
+        and identify the areas where you need more practice.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- LEVELS -->
+  <section class="lk-section lk-light" id="lessons">
+    <div class="lk-heading">
+      <h2>Your Kiswahili Learning Journey</h2>
+      <p>Four learning levels take you from basic words to
+      advanced communication. Study each topic and complete
+      its practice questions.</p>
+    </div>
+    <div class="lk-grid">
+      <article class="lk-card lk-level">
+        <div class="lk-icon">🌱</div>
+        <h3>Level 1: Beginner</h3>
+        <p>Greetings, introductions, numbers, pronunciation,
+        family, common nouns, basic verbs and simple sentences.</p>
+        <a href="dashboard.html">Explore beginner lessons →</a>
+      </article>
+      <article class="lk-card lk-level">
+        <div class="lk-icon">🌿</div>
+        <h3>Level 2: Elementary</h3>
+        <p>Everyday conversations, present and past tense,
+        shopping, directions, time, questions and sentence patterns.</p>
+        <a href="dashboard.html">Explore elementary lessons →</a>
+      </article>
+      <article class="lk-card lk-level">
+        <div class="lk-icon">🌳</div>
+        <h3>Level 3: Intermediate</h3>
+        <p>More detailed grammar, longer conversations, storytelling,
+        describing events, expressing opinions and reading passages.</p>
+        <a href="dashboard.html">Explore intermediate lessons →</a>
+      </article>
+      <article class="lk-card lk-level">
+        <div class="lk-icon">🎓</div>
+        <h3>Level 4: Advanced</h3>
+        <p>Advanced grammar, fluent discussions, formal Kiswahili,
+        essays, idioms, comprehension and professional communication.</p>
+        <a href="dashboard.html">Explore advanced lessons →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- STUDY TOOLS -->
+  <section class="lk-section" id="features">
+    <div class="lk-feature">
+      <div>
+        <span class="lk-tag" style="background:#e1f4eb;color:#087f5b;">
+          Learn. Practise. Improve.
+        </span>
+        <h2>More Than Just Reading Lessons</h2>
+        <p>Make learning active with tools that help you remember
+        vocabulary and put your Kiswahili into practice.</p>
+        <ul>
+          <li>📖 Detailed lessons with practical examples</li>
+          <li>🔊 Pronunciation and listening practice</li>
+          <li>📝 Quizzes and knowledge checks</li>
+          <li>💬 Everyday dialogues and conversation exercises</li>
+          <li>📊 A place to review your learning progress</li>
+        </ul>
+        <a class="lk-btn lk-btn-green" href="dashboard.html">
+          Go to My Learning Dashboard
+        </a>
+      </div>
+      <div class="lk-card">
+        <div class="lk-icon">📈</div>
+        <h3>Your Progress, Your Journey</h3>
+        <p>Use your learning dashboard to find lessons, practise
+        questions and review your achievements as you progress
+        through the four levels.</p>
+        <a href="dashboard.html">Open learning dashboard →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREMIUM CLASSES -->
+  <section class="lk-section lk-light">
+    <div class="lk-feature">
+      <div>
+        <div class="lk-icon">👩🏽‍🏫</div>
+        <h2>Learn with a Teacher</h2>
+        <p>Take your speaking skills further with premium,
+        teacher-led online Kiswahili classes. Practise real
+        conversations, ask questions and receive personal guidance.</p>
+        <p><strong>KSh 300 per class</strong></p>
+        <a class="lk-btn lk-btn-green" href="dashboard.html">
+          Explore Premium Classes
+        </a>
+      </div>
+      <div class="lk-card">
+        <h3>What You Can Practise</h3>
+        <p>✓ Speaking and pronunciation</p>
+        <p>✓ Grammar and sentence correction</p>
+        <p>✓ Everyday Kenyan conversations</p>
+        <p>✓ Personal questions and feedback</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CALL TO ACTION -->
+  <section class="lk-cta">
+    <h2>Your Kiswahili Journey Starts Here.</h2>
+    <p>Take the first step today. Learn a new word, build a
+    sentence and grow your confidence one lesson at a time.</p>
+    <a class="lk-btn lk-btn-green" href="#lessons">Choose Your Level</a>
+    <a class="lk-btn" href="dashboard.html">Visit Dashboard</a>
+  </section>
+
+  <footer class="lk-footer">
+    <strong>Learn Kiswahili 🇰🇪</strong>
+    <p>Learn naturally. Speak confidently. Connect through language.</p>
+    <a href="index.html">Home</a>
+    <a href="#lessons">Lessons</a>
+    <a href="dashboard.html">Dashboard</a>
+    <p>© 2026 Learn Kiswahili. All rights reserved.</p>
+  </footer>
+
+</div>
  
