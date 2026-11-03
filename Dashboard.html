@@ -1,1 +1,445 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiswahili Learning Dashboard</title>
+<style>
+:root {
+  --navy:#101b55;
+  --blue:#087cf0;
+  --purple:#7628e8;
+  --green:#08bd75;
+  --yellow:#ffca22;
+  --pink:#f22c83;
+  --bg:#f3f6ff;
+  --text:#15204a;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0}
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#101b55,#172d83);color:white;padding:20px 15px;position:sticky;top:0;height:100vh}
+.brand{text-align:center;padding:15px;font-size:22px;font-weight:bold}
+.brand span{font-size:35px}
+.nav{display:grid;gap:7px;margin-top:20px}
+.nav button{background:transparent;color:white;text-align:left;padding:14px;border-radius:12px;font-weight:bold}
+.nav button.active,.nav button:hover{background:#087cf0}
+.premium{margin-top:25px;background:linear-gradient(135deg,#6518dc,#a20be9);padding:18px;border-radius:15px;text-align:center}
+.premium button{background:var(--yellow);padding:12px;border-radius:9px;font-weight:bold}
+.main{padding:22px;min-width:0}
+.topbar{display:flex;gap:12px;margin-bottom:20px;align-items:center}
+.topbar input{flex:1;padding:14px;border-radius:25px;border:1px solid #ddd}
+.avatar{background:var(--purple);color:white;padding:13px;border-radius:50%;font-weight:bold}
+.hero{background:linear-gradient(110deg,#063e9e,#087cf0,#7628e8);padding:30px;border-radius:20px;color:white}
+.hero h1{font-size:38px;margin:0 0 12px}
+.hero h1 span{color:var(--yellow)}
+.btn{padding:12px 18px;border-radius:10px;font-weight:bold;background:var(--yellow);color:#14204c}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.stat{padding:18px;color:white;border-radius:15px}
+.stat strong{display:block;font-size:27px}
+.s1{background:linear-gradient(135deg,#087cf0,#1745cb)}
+.s2{background:linear-gradient(135deg,#08bd75,#008d78)}
+.s3{background:linear-gradient(135deg,#ffb000,#ed7500)}
+.s4{background:linear-gradient(135deg,#f22c83,#a51bd1)}
+h2{margin:22px 0 13px}
+.courses{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.course{padding:17px;color:white;border-radius:16px;min-height:205px;display:flex;flex-direction:column}
+.course:nth-child(4n+1){background:linear-gradient(145deg,#06a75e,#064b45)}
+.course:nth-child(4n+2){background:linear-gradient(145deg,#087cf0,#102d8c)}
+.course:nth-child(4n+3){background:linear-gradient(145deg,#a01be9,#4d16a6)}
+.course:nth-child(4n+4){background:linear-gradient(145deg,#ff9b00,#c74400)}
+.course h3{font-size:19px}
+.course p{font-size:13px}
+.course button{margin-top:auto;padding:11px;border-radius:9px;font-weight:bold}
+.progress{height:9px;background:#ddd;border-radius:20px;overflow:hidden}
+.progress span{display:block;height:100%;background:#08bd75}
+.panel{background:white;padding:18px;border-radius:15px;margin-top:17px;box-shadow:0 5px 20px #18245b12}
+.page{display:none}
+.page.active{display:block}
+.lesson{background:white;padding:15px;margin:10px 0;border-radius:12px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.lesson button{background:#087cf0;color:white;padding:10px;border-radius:8px}
+.answer{display:block;width:100%;padding:13px;margin:8px 0;background:#edf2ff;border-radius:9px;text-align:left}
+.answer:hover{background:#dce7ff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;margin:12px 0}
+input[type=text],input[type=email]{padding:12px;border:1px solid #ddd;border-radius:8px;width:100%}
+.notice{padding:13px;background:#fff4ce;border-radius:10px;margin:12px 0}
+footer{text-align:center;color:#777;margin:30px}
+#menu{display:none}
+@media(max-width:1000px){.courses{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){
+ .app{display:block}
+ .sidebar{display:none;position:fixed;z-index:10;width:250px}
+ .sidebar.open{display:block}
+ .main{padding:13px}
+ #menu{display:block;background:#101b55;color:white;padding:12px;border-radius:9px}
+ .courses{grid-template-columns:1fr 1fr}
+ .hero h1{font-size:28px}
+ .grid2{grid-template-columns:1fr}
+}
+@media(max-width:420px){.courses{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+ <div class="brand"><span>📘</span><br>Kiswahili Learning</div>
+
+ <nav class="nav">
+  <button class="active" onclick="showPage('dashboard',this)">🏠 Dashboard</button>
+  <button onclick="showPage('courses',this)">📚 Courses & Lessons</button>
+  <button onclick="showPage('practice',this)">✍️ Practice & Quizzes</button>
+  <button onclick="showPage('progress',this)">📈 My Progress</button>
+  <button onclick="showPage('certificates',this)">🏅 Certificates</button>
+  <button onclick="showPage('premium',this)">👑 Premium Plan</button>
+  <button onclick="showPage('profile',this)">👤 My Profile</button>
+  <button onclick="showPage('settings',this)">⚙️ Settings</button>
+  <button onclick="showPage('help',this)">💬 Help & Support</button>
+ </nav>
+
+ <div class="premium">
+  <h3>👑 Go Premium</h3>
+  <p>Unlock advanced Kiswahili lessons.</p>
+  <h2>KSh 5,000/month</h2>
+  <button onclick="showPage('premium')">Upgrade Now</button>
+ </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+ <button id="menu" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+ <input id="search" placeholder="Search lessons and courses..." oninput="searchLessons()">
+ <div class="avatar" id="avatar">C</div>
+ <strong id="topName">Student</strong>
+</header>
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+ <div class="hero">
+  <h1>Karibu kwenye<br><span>Kiswahili Learning!</span></h1>
+  <p>Learn Kiswahili from beginner to advanced. Improve your speaking, reading, writing and understanding.</p>
+  <button class="btn" onclick="showPage('courses')">▶ Start Learning</button>
+ </div>
+
+ <div class="stats">
+  <div class="stat s1"><strong id="completed">0</strong>Lessons completed</div>
+  <div class="stat s2"><strong id="started">0</strong>Courses started</div>
+  <div class="stat s3"><strong id="attempts">0</strong>Quiz attempts</div>
+  <div class="stat s4"><strong>🔥</strong>Keep learning</div>
+ </div>
+
+ <h2>📚 My Courses</h2>
+ <div class="courses" id="courseCards"></div>
+
+ <div class="panel">
+  <h3>🕒 Recent Activity</h3>
+  <div id="activity">No lessons completed yet.</div>
+ </div>
+</section>
+
+<!-- COURSES -->
+<section class="page" id="courses">
+ <h1>📚 Courses & Lessons</h1>
+ <p>Choose your learning level.</p>
+ <div id="lessonList"></div>
+</section>
+
+<!-- PRACTICE -->
+<section class="page" id="practice">
+ <h1>✍️ Practice & Quizzes</h1>
+ <div class="panel">
+  <h3 id="question">What does Habari mean?</h3>
+  <div id="answers"></div>
+  <p id="feedback">Choose your answer.</p>
+  <button class="btn" onclick="nextQuestion()">Next Question →</button>
+ </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="page" id="progress">
+ <h1>📈 My Progress</h1>
+ <div class="panel">
+  <h2 id="percent">0%</h2>
+  <div class="progress"><span id="bar" style="width:0%"></span></div>
+  <p id="progressText">0 lessons completed.</p>
+  <div id="courseProgress"></div>
+ </div>
+</section>
+
+<!-- CERTIFICATES -->
+<section class="page" id="certificates">
+ <h1>🏅 My Certificates</h1>
+ <div class="panel">
+  <h2>Certificate of Achievement</h2>
+  <p id="certName">Student</p>
+  <p>Complete all lessons in a course to qualify for its certificate.</p>
+  <div id="certStatus">Not yet earned</div>
+ </div>
+</section>
+
+<!-- PREMIUM -->
+<section class="page" id="premium">
+ <h1>👑 Premium Membership</h1>
+ <div class="panel">
+  <h2>KSh 5,000 / Month</h2>
+  <p>Premium learning membership includes:</p>
+  <ul>
+   <li>All beginner lessons</li>
+   <li>Intermediate Kiswahili</li>
+   <li>Advanced grammar</li>
+   <li>Professional Kiswahili</li>
+   <li>Extra practice exercises</li>
+   <li>Progress tracking</li>
+   <li>Certificate eligibility</li>
+   <li>Learning support</li>
+  </ul>
+  <div class="notice">Payment processing is not connected yet. A secure payment provider and backend verification are required before accepting payments.</div>
+  <button class="btn" onclick="alert('Please add your official support contact to activate membership enquiries.')">Contact Us</button>
+ </div>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="profile">
+ <h1>👤 My Profile</h1>
+ <div class="panel">
+  <label>Your display name</label>
+  <input type="text" id="studentName" placeholder="Enter your name">
+  <br><br>
+  <button class="btn" onclick="saveProfile()">Save Profile</button>
+ </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="settings">
+ <h1>⚙️ Settings</h1>
+ <div class="panel">
+  <label><input type="checkbox" id="reminder"> Enable learning reminder</label>
+  <label><input type="checkbox" id="compact"> Compact display</label>
+  <button class="btn" onclick="saveSettings()">Save Settings</button>
+  <hr>
+  <button class="btn" onclick="resetData()">Reset demo progress</button>
+ </div>
+</section>
+
+<!-- HELP -->
+<section class="page" id="help">
+ <h1>💬 Help & Support</h1>
+ <div class="grid2">
+  <div class="panel"><h3>📖 Learning help</h3><p>Open a course and select a lesson to begin.</p></div>
+  <div class="panel"><h3>💳 Premium help</h3><p>Contact the website administrator for membership information.</p></div>
+  <div class="panel"><h3>🔐 Account help</h3><p>Account login and recovery require a connected backend.</p></div>
+  <div class="panel"><h3>📩 Contact</h3><p>Contact your Kiswahili Learning administrator for assistance.</p></div>
+ </div>
+</section>
+
+<footer>© <span id="year"></span> Kiswahili Learning. Learn every day.</footer>
+</main>
+</div>
+
+<script>
+const courses=[
+ {level:"Beginner",name:"Kiswahili Basics",lessons:[
+  ["Greetings","Habari means how are you? Hujambo is a common greeting."],
+  ["Introducing Yourself","Jina langu ni… means My name is…"],
+  ["Numbers","Moja, mbili, tatu, nne, tano: one, two, three, four, five."],
+  ["Family","Mama means mother. Baba means father. Dada means sister."],
+  ["Days and Time","Leo means today. Kesho means tomorrow. Jana means yesterday."]
+ ]},
+ {level:"Intermediate",name:"Kiswahili Conversation",lessons:[
+  ["At the Market","Bei gani? means How much? Ningependa means I would like."],
+  ["Directions","Hospitali iko wapi? means Where is the hospital?"],
+  ["Food","Ningependa chai means I would like tea."],
+  ["Daily Routine","Ninaamka means I wake up. Ninaenda means I go."],
+  ["Past and Future","Nilisoma means I studied. Nitasoma means I will study."]
+ ]},
+ {level:"Advanced",name:"Kiswahili Grammar",lessons:[
+  ["Noun Classes","Learn how Kiswahili nouns are grouped and how agreement works."],
+  ["Verb Structure","Ninaandika: ni- is the subject marker and -na- marks present tense."],
+  ["Adjectives","Learn to describe people and objects correctly."],
+  ["Complex Sentences","Kwa sababu means because. Ingawa means although."],
+  ["Proverbs","Methali are traditional Kiswahili sayings."]
+ ]},
+ {level:"Professional",name:"Kiswahili for Work",lessons:[
+  ["Professional Introductions","Ninafurahi kukutana nawe means I am pleased to meet you."],
+  ["Formal Writing","Learn respectful language for professional communication."],
+  ["Meetings","Kwa maoni yangu means In my opinion."],
+  ["Customer Service","Naweza kukusaidia? means Can I help you?"],
+  ["Business Vocabulary","Mkutano means meeting. Kazi means work. Ripoti means report."]
+ ]}
+];
+
+const questions=[
+ {q:"What does Habari mean?",a:["Goodbye","How are you? / News","Thank you"],correct:1,why:"Habari is commonly used to ask how someone is doing."},
+ {q:"How do you say Thank you?",a:["Tafadhali","Asante","Samahani"],correct:1,why:"Asante means thank you."},
+ {q:"What does Kesho mean?",a:["Yesterday","Today","Tomorrow"],correct:2,why:"Kesho means tomorrow."},
+ {q:"What does Kitabu mean?",a:["Book","Chair","Table"],correct:0,why:"Kitabu means book."},
+ {q:"What does Jina langu ni mean?",a:["I am going","My name is","Good morning"],correct:1,why:"Jina langu ni means My name is."}
+];
+
+let saved=JSON.parse(localStorage.getItem("kiswahiliData")||"{}");
+let completed=saved.completed||[];
+let attempts=saved.attempts||0;
+let student=saved.student||"Student";
+let currentQuestion=0;
+
+const lessons=[];
+courses.forEach((c,ci)=>c.lessons.forEach((l,li)=>{
+ lessons.push({id:ci+"-"+li,course:c.name,level:c.level,title:l[0],content:l[1]});
+}));
+
+function store(){
+ localStorage.setItem("kiswahiliData",JSON.stringify({
+  completed,attempts,student
+ }));
+}
+
+function showPage(id,button){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+ if(button)button.classList.add("active");
+ document.getElementById("sidebar").classList.remove("open");
+ window.scrollTo(0,0);
+}
+
+function renderCourses(){
+ document.getElementById("courseCards").innerHTML=courses.map((c,ci)=>{
+  let done=c.lessons.filter((l,li)=>completed.includes(ci+"-"+li)).length;
+  return `<div class="course">
+   <span>${c.level}</span>
+   <h3>${c.name}</h3>
+   <p>${done}/${c.lessons.length} lessons completed</p>
+   <div class="progress"><span style="width:${done/c.lessons.length*100}%"></span></div>
+   <br><button onclick="showPage('courses')">Open Course →</button>
+  </div>`;
+ }).join("");
+
+ document.getElementById("lessonList").innerHTML=lessons.map(l=>`
+  <div class="lesson">
+   <div><small>${l.level} • ${l.course}</small>
+   <h3>${l.title}</h3><p>${l.content}</p></div>
+   <button onclick="openLesson('${l.id}')">
+   ${completed.includes(l.id)?"Completed ✓":"Study lesson"}
+   </button>
+  </div>`).join("");
+
+ updateDashboard();
+}
+
+function openLesson(id){
+ let l=lessons.find(x=>x.id===id);
+ if(!l)return;
+ let already=completed.includes(id);
+ let answer=confirm(l.title+"\n\n"+l.content+"\n\nPress OK to mark this lesson completed.");
+ if(answer&&!already){
+  completed.push(id);
+  store();
+  renderCourses();
+  alert("Lesson completed successfully!");
+ }
+}
+
+function updateDashboard(){
+ document.getElementById("completed").textContent=completed.length;
+ document.getElementById("attempts").textContent=attempts;
+ document.getElementById("started").textContent=courses.filter((c,ci)=>c.lessons.some((l,li)=>completed.includes(ci+"-"+li))).length;
+ document.getElementById("topName").textContent=student;
+ document.getElementById("avatar").textContent=student.charAt(0).toUpperCase();
+ document.getElementById("certName").textContent=student;
+
+ document.getElementById("activity").innerHTML=completed.length
+ ?completed.slice(-5).reverse().map(id=>{
+  let l=lessons.find(x=>x.id===id);
+  return `<p>✅ ${l?l.title:"Completed lesson"}</p>`;
+ }).join("")
+ :"No lessons completed yet.";
+
+ let percent=Math.round(completed.length/lessons.length*100);
+ document.getElementById("percent").textContent=percent+"%";
+ document.getElementById("bar").style.width=percent+"%";
+ document.getElementById("progressText").textContent=completed.length+" of "+lessons.length+" lessons completed.";
+
+ document.getElementById("courseProgress").innerHTML=courses.map((c,ci)=>{
+  let done=c.lessons.filter((l,li)=>completed.includes(ci+"-"+li)).length;
+  return `<p><strong>${c.name}</strong> — ${done}/${c.lessons.length}</p>`;
+ }).join("");
+
+ let earned=courses.some((c,ci)=>c.lessons.every((l,li)=>completed.includes(ci+"-"+li)));
+ document.getElementById("certStatus").textContent=earned?"Course completed! Contact the administrator for certificate verification.":"Not yet earned";
+}
+
+function searchLessons(){
+ let term=document.getElementById("search").value.toLowerCase();
+ document.getElementById("lessonList").innerHTML=lessons.filter(l=>
+  (l.title+" "+l.course+" "+l.level+" "+l.content).toLowerCase().includes(term)
+ ).map(l=>`
+  <div class="lesson">
+   <div><small>${l.level} • ${l.course}</small><h3>${l.title}</h3><p>${l.content}</p></div>
+   <button onclick="openLesson('${l.id}')">Study lesson</button>
+  </div>`).join("");
+ if(!document.getElementById("courses").classList.contains("active")){
+  showPage("courses");
+ }
+}
+
+function renderQuestion(){
+ let q=questions[currentQuestion];
+ document.getElementById("question").textContent=q.q;
+ document.getElementById("feedback").textContent="Choose your answer.";
+ document.getElementById("answers").innerHTML=q.a.map((a,i)=>
+  `<button class="answer" onclick="answerQuestion(${i})">${a}</button>`
+ ).join("");
+}
+
+function answerQuestion(index){
+ let q=questions[currentQuestion];
+ attempts++;
+ store();
+ document.getElementById("feedback").textContent=
+  (index===q.correct?"Correct! ":"Not quite. ")+q.why;
+ document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
+ updateDashboard();
+}
+
+function nextQuestion(){
+ currentQuestion=(currentQuestion+1)%questions.length;
+ renderQuestion();
+}
+
+function saveProfile(){
+ let name=document.getElementById("studentName").value.trim();
+ if(!name)return alert("Please enter your name.");
+ student=name;
+ store();
+ updateDashboard();
+ alert("Profile updated.");
+}
+
+function saveSettings(){
+ localStorage.setItem("learningReminder",document.getElementById("reminder").checked);
+ localStorage.setItem("compactMode",document.getElementById("compact").checked);
+ alert("Settings saved.");
+}
+
+function resetData(){
+ if(confirm("Are you sure you want to reset your learning progress?")){
+  completed=[];
+  attempts=0;
+  store();
+  renderCourses();
+ }
+}
+
+document.getElementById("studentName").value=student;
+document.getElementById("year").textContent=new Date().getFullYear();
+
+renderCourses();
+renderQuestion();
+</script>
+</body>
+</html> 
