@@ -1,294 +1,1480 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jifunze Kiswahili Academy</title>
+<meta name="description" content="Learn Kiswahili from beginner to advanced with 60 lessons, quizzes and interactive learning.">
 
 <style>
-/* LEARN KISWAHILI - HOMEPAGE */
-.lk-home {
-  font-family: Arial, sans-serif;
-  color: #172033;
-  line-height: 1.7;
+:root{
+--navy:#10213c;--green:#079b79;--mint:#19d3a2;
+--bg:#f3f6fb;--white:#fff;--text:#19283e;
+--muted:#718096;--gold:#f3b83f;
 }
-.lk-home * { box-sizing: border-box; }
-.lk-home a { text-decoration: none; }
-.lk-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 5%;
-  background: #fff;
-  flex-wrap: wrap;
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{
+background:var(--navy);color:white;padding:17px 5%;
+display:flex;justify-content:space-between;align-items:center;
+flex-wrap:wrap;gap:15px;position:sticky;top:0;z-index:100
 }
-.lk-logo {
-  color: #087f5b;
-  font-size: 21px;
-  font-weight: 800;
+.logo{font-size:21px;font-weight:bold;color:var(--mint)}
+nav{display:flex;gap:15px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-size:13px}
+nav a:hover{color:var(--mint)}
+.hero{
+padding:75px 7%;background:linear-gradient(120deg,#10213c,#075f60);
+color:white
 }
-.lk-nav-links {
-  display: flex;
-  gap: 17px;
-  flex-wrap: wrap;
-  align-items: center;
+.hero h1{font-size:clamp(34px,6vw,58px);max-width:750px;margin-bottom:20px}
+.hero p{line-height:1.8;max-width:650px;color:#e0f5ef}
+.btn{
+display:inline-block;padding:13px 20px;background:var(--green);
+color:white;border:0;border-radius:9px;font-weight:bold;
+text-decoration:none;margin-top:15px;cursor:pointer
 }
-.lk-nav-links a { color: #263448; font-size: 14px; }
-.lk-btn {
-  display: inline-block;
-  padding: 12px 23px;
-  border-radius: 8px;
-  background: #ffcf33;
-  color: #172033 !important;
-  font-weight: bold;
-  margin: 7px 5px 7px 0;
-  text-align: center;
+.btn:hover{background:#06765f}
+.secondary{background:var(--navy)}
+.container{padding:45px 6%;max-width:1500px;margin:auto}
+.heading{font-size:27px;margin-bottom:12px}
+.sub{color:var(--muted);line-height:1.7;margin-bottom:25px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.card{background:white;padding:23px;border-radius:14px;box-shadow:0 5px 22px #1527440c}
+.card h3{margin:12px 0}
+.card p{color:var(--muted);line-height:1.7;margin:6px 0}
+.icon{font-size:32px}
+.tag{font-size:12px;font-weight:bold;color:var(--green)}
+.stat{font-size:28px;font-weight:bold;color:var(--green);margin-top:12px}
+.progress{background:#e7edf3;height:12px;border-radius:20px;overflow:hidden;margin:13px 0}
+.progress div{height:100%;width:0;background:var(--mint);transition:.3s}
+input,select{
+width:100%;padding:13px;border:1px solid #d7e0e9;
+border-radius:8px;margin:9px 0;font-size:15px
 }
-.lk-btn-green { background: #087f5b; color: white !important; }
-.lk-hero {
-  background: linear-gradient(135deg,#086747,#11966d);
-  color: white;
-  text-align: center;
-  padding: 75px 7% 80px;
+.lesson-list{background:white;border-radius:13px;overflow:hidden}
+.level-heading{padding:19px;background:#e7f5f0;color:#087b62;font-weight:bold}
+.lesson{
+display:flex;justify-content:space-between;align-items:center;
+padding:16px;gap:12px;border-bottom:1px solid #edf0f4;flex-wrap:wrap
 }
-.lk-hero h1 {
-  font-size: clamp(34px,6vw,56px);
-  line-height: 1.15;
-  margin: 0 auto 18px;
-  max-width: 850px;
+.lesson p{font-size:12px;color:var(--muted);margin-top:5px}
+.lesson button,.quiz-option{
+border:0;border-radius:7px;background:var(--green);
+color:white;padding:11px 15px;cursor:pointer
 }
-.lk-hero p {
-  max-width: 680px;
-  margin: 0 auto 20px;
-  font-size: 18px;
-  color: #edfff7;
-}
-.lk-tag {
-  display: inline-block;
-  background: #ffffff20;
-  padding: 7px 14px;
-  border-radius: 30px;
-  margin-bottom: 18px;
-}
-.lk-section { padding: 55px 6%; }
-.lk-light { background: #f2f7f5; }
-.lk-heading { text-align: center; margin: 0 auto 32px; max-width: 720px; }
-.lk-heading h2 { font-size: 29px; line-height: 1.3; }
-.lk-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap: 20px;
-}
-.lk-card {
-  background: white;
-  border: 1px solid #e3eae6;
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 5px 18px #102c1a0b;
-}
-.lk-icon { font-size: 34px; }
-.lk-card h3 { margin: 9px 0; }
-.lk-card p { color: #596579; font-size: 15px; }
-.lk-card a { color: #087f5b; font-weight: bold; }
-.lk-feature {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-  gap: 35px;
-  align-items: center;
-}
-.lk-feature h2 { font-size: 30px; line-height: 1.3; }
-.lk-feature li { margin: 10px 0; }
-.lk-level {
-  border-top: 4px solid #087f5b;
-}
-.lk-cta {
-  background: #e1f4eb;
-  text-align: center;
-  padding: 55px 7%;
-}
-.lk-cta h2 { font-size: 30px; }
-.lk-footer {
-  background: #15251f;
-  color: #e5f1eb;
-  text-align: center;
-  padding: 28px 15px;
-  font-size: 14px;
-}
-.lk-footer a { color: #ffcf33; margin: 0 7px; }
-@media(max-width:600px) {
-  .lk-nav { justify-content: center; }
-  .lk-nav-links { justify-content: center; gap: 12px; }
-  .lk-hero { padding: 55px 6%; }
-  .lk-section { padding: 40px 5%; }
+.lesson button.done{background:#718096}
+#lessonArea{display:none;margin-top:22px;background:white;padding:25px;border-radius:14px;line-height:1.9}
+#lessonContent{white-space:pre-line;color:#42536a;margin:20px 0}
+.quiz-option{display:block;width:100%;text-align:left;margin:10px 0}
+.quiz-option:hover{background:#066d57}
+.price{font-size:30px;font-weight:bold;color:var(--green);margin:15px 0}
+.premium{border:2px solid var(--gold)}
+footer{background:var(--navy);color:white;padding:40px 6%;text-align:center;line-height:2}
+.small{font-size:12px;color:var(--muted)}
+@media(max-width:600px){
+header{justify-content:center}
+nav{justify-content:center}
+.hero{padding:55px 6%}
+.container{padding:32px 5%}
 }
 </style>
+</head>
 
-<div class="lk-home">
+<body>
 
-  <!-- NAVIGATION -->
-  <nav class="lk-nav">
-    <a class="lk-logo" href="index.html">🇰🇪 Learn Kiswahili</a>
-    <div class="lk-nav-links">
-      <a href="#why-learn">Why Learn?</a>
-      <a href="#lessons">Lessons</a>
-      <a href="#features">Study Tools</a>
-      <a href="dashboard.html">Dashboard</a>
-    </div>
-  </nav>
+<header>
+<div class="logo">🌍 JIFUNZE KISWAHILI</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#dashboard">Dashboard</a>
+<a href="#courses">Courses</a>
+<a href="#lessons">Lessons</a>
+<a href="#quiz">Quiz</a>
+<a href="#pricing">Pricing</a>
+<a href="#account">Account</a>
+</nav>
+</header>
 
-  <!-- INTRODUCTION -->
-  <header class="lk-hero">
-    <span class="lk-tag">Karibu! Welcome to Learn Kiswahili</span>
-    <h1>Speak Kiswahili with Confidence.</h1>
-    <p>
-      From your first Jambo to confident everyday conversations,
-      learn Kiswahili step by step with practical lessons,
-      pronunciation practice and interactive quizzes.
-    </p>
-    <a class="lk-btn" href="#lessons">Start Learning →</a>
-    <a class="lk-btn" href="dashboard.html">Open Dashboard</a>
-    <p style="font-size:14px;margin-top:18px;">
-      Beginner-friendly • Practical Kenyan Kiswahili • Learn at your pace
-    </p>
-  </header>
+<section class="hero" id="home">
+<h1>Discover the Beauty of Kiswahili.</h1>
+<p>
+Welcome to your professional Kiswahili learning academy.
+Learn a new language, understand African culture and
+communicate confidently from beginner to advanced level.
+</p>
+<a href="#courses" class="btn">Explore Courses →</a>
+<a href="#account" class="btn secondary">Join Academy</a>
+</section>
 
-  <!-- WHY LEARN -->
-  <section class="lk-section" id="why-learn">
-    <div class="lk-heading">
-      <h2>Learn Kiswahili the Practical Way</h2>
-      <p>Build real communication skills through lessons
-      designed to help you understand, speak, read and write.</p>
-    </div>
-    <div class="lk-grid">
-      <article class="lk-card">
-        <div class="lk-icon">🗣️</div>
-        <h3>Speak from Day One</h3>
-        <p>Learn greetings, introductions and useful expressions
-        you can use with friends, family and in everyday life.</p>
-      </article>
-      <article class="lk-card">
-        <div class="lk-icon">📚</div>
-        <h3>Understand Every Lesson</h3>
-        <p>Explore vocabulary, grammar rules, sentence building,
-        examples and conversations with English explanations.</p>
-      </article>
-      <article class="lk-card">
-        <div class="lk-icon">✅</div>
-        <h3>Test Your Knowledge</h3>
-        <p>Answer questions after each lesson, check your answers
-        and identify the areas where you need more practice.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- LEVELS -->
-  <section class="lk-section lk-light" id="lessons">
-    <div class="lk-heading">
-      <h2>Your Kiswahili Learning Journey</h2>
-      <p>Four learning levels take you from basic words to
-      advanced communication. Study each topic and complete
-      its practice questions.</p>
-    </div>
-    <div class="lk-grid">
-      <article class="lk-card lk-level">
-        <div class="lk-icon">🌱</div>
-        <h3>Level 1: Beginner</h3>
-        <p>Greetings, introductions, numbers, pronunciation,
-        family, common nouns, basic verbs and simple sentences.</p>
-        <a href="dashboard.html">Explore beginner lessons →</a>
-      </article>
-      <article class="lk-card lk-level">
-        <div class="lk-icon">🌿</div>
-        <h3>Level 2: Elementary</h3>
-        <p>Everyday conversations, present and past tense,
-        shopping, directions, time, questions and sentence patterns.</p>
-        <a href="dashboard.html">Explore elementary lessons →</a>
-      </article>
-      <article class="lk-card lk-level">
-        <div class="lk-icon">🌳</div>
-        <h3>Level 3: Intermediate</h3>
-        <p>More detailed grammar, longer conversations, storytelling,
-        describing events, expressing opinions and reading passages.</p>
-        <a href="dashboard.html">Explore intermediate lessons →</a>
-      </article>
-      <article class="lk-card lk-level">
-        <div class="lk-icon">🎓</div>
-        <h3>Level 4: Advanced</h3>
-        <p>Advanced grammar, fluent discussions, formal Kiswahili,
-        essays, idioms, comprehension and professional communication.</p>
-        <a href="dashboard.html">Explore advanced lessons →</a>
-      </article>
-    </div>
-  </section>
-
-  <!-- STUDY TOOLS -->
-  <section class="lk-section" id="features">
-    <div class="lk-feature">
-      <div>
-        <span class="lk-tag" style="background:#e1f4eb;color:#087f5b;">
-          Learn. Practise. Improve.
-        </span>
-        <h2>More Than Just Reading Lessons</h2>
-        <p>Make learning active with tools that help you remember
-        vocabulary and put your Kiswahili into practice.</p>
-        <ul>
-          <li>📖 Detailed lessons with practical examples</li>
-          <li>🔊 Pronunciation and listening practice</li>
-          <li>📝 Quizzes and knowledge checks</li>
-          <li>💬 Everyday dialogues and conversation exercises</li>
-          <li>📊 A place to review your learning progress</li>
-        </ul>
-        <a class="lk-btn lk-btn-green" href="dashboard.html">
-          Go to My Learning Dashboard
-        </a>
-      </div>
-      <div class="lk-card">
-        <div class="lk-icon">📈</div>
-        <h3>Your Progress, Your Journey</h3>
-        <p>Use your learning dashboard to find lessons, practise
-        questions and review your achievements as you progress
-        through the four levels.</p>
-        <a href="dashboard.html">Open learning dashboard →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PREMIUM CLASSES -->
-  <section class="lk-section lk-light">
-    <div class="lk-feature">
-      <div>
-        <div class="lk-icon">👩🏽‍🏫</div>
-        <h2>Learn with a Teacher</h2>
-        <p>Take your speaking skills further with premium,
-        teacher-led online Kiswahili classes. Practise real
-        conversations, ask questions and receive personal guidance.</p>
-        <p><strong>KSh 300 per class</strong></p>
-        <a class="lk-btn lk-btn-green" href="dashboard.html">
-          Explore Premium Classes
-        </a>
-      </div>
-      <div class="lk-card">
-        <h3>What You Can Practise</h3>
-        <p>✓ Speaking and pronunciation</p>
-        <p>✓ Grammar and sentence correction</p>
-        <p>✓ Everyday Kenyan conversations</p>
-        <p>✓ Personal questions and feedback</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CALL TO ACTION -->
-  <section class="lk-cta">
-    <h2>Your Kiswahili Journey Starts Here.</h2>
-    <p>Take the first step today. Learn a new word, build a
-    sentence and grow your confidence one lesson at a time.</p>
-    <a class="lk-btn lk-btn-green" href="#lessons">Choose Your Level</a>
-    <a class="lk-btn" href="dashboard.html">Visit Dashboard</a>
-  </section>
-
-  <footer class="lk-footer">
-    <strong>Learn Kiswahili 🇰🇪</strong>
-    <p>Learn naturally. Speak confidently. Connect through language.</p>
-    <a href="index.html">Home</a>
-    <a href="#lessons">Lessons</a>
-    <a href="dashboard.html">Dashboard</a>
-    <p>© 2026 Learn Kiswahili. All rights reserved.</p>
-  </footer>
-
+<section class="container" id="dashboard">
+<h2 class="heading">Student Dashboard</h2>
+<p class="sub" id="welcome">Welcome to your learning journey.</p>
+<div class="grid">
+<div class="card"><div class="icon">📚</div><h3>Total Lessons</h3><div class="stat">60</div></div>
+<div class="card"><div class="icon">✅</div><h3>Completed</h3><div class="stat" id="completedCount">0</div></div>
+<div class="card">
+<div class="icon">📈</div><h3>Progress</h3>
+<div class="stat" id="progressNumber">0%</div>
+<div class="progress"><div id="progressBar"></div></div>
 </div>
- 
+<div class="card"><div class="icon">🏆</div><h3>Learning Level</h3><p id="studentLevel">Beginner</p></div>
+</div>
+</section>
+
+<section class="container" id="courses">
+<h2 class="heading">Our Learning Programs</h2>
+<p class="sub">Choose your level and develop your Kiswahili skills.</p>
+<div class="grid">
+<div class="card">
+<div class="icon">🌱</div><span class="tag">LEVEL 1</span>
+<h3>Beginner Kiswahili</h3>
+<p>Alphabet, greetings, numbers, vocabulary and basic conversations.</p>
+<a href="#lessons" class="btn">Start Beginner</a>
+</div>
+<div class="card">
+<div class="icon">📖</div><span class="tag">LEVEL 2</span>
+<h3>Intermediate Kiswahili</h3>
+<p>Grammar, sentence construction, writing and everyday communication.</p>
+<a href="#lessons" class="btn">Start Intermediate</a>
+</div>
+<div class="card">
+<div class="icon">🎓</div><span class="tag">LEVEL 3</span>
+<h3>Advanced Kiswahili</h3>
+<p>Professional speaking, academic writing, literature and business.</p>
+<a href="#lessons" class="btn">Start Advanced</a>
+</div>
+</div>
+</section>
+
+<section class="container" id="lessons">
+<h2 class="heading">Complete Kiswahili Library</h2>
+<p class="sub">Explore all 60 lessons. Search by topic or choose a level.</p>
+<input id="lessonSearch" placeholder="🔍 Search lessons..." oninput="renderLessons()">
+<select id="levelFilter" onchange="renderLessons()">
+<option value="ALL">All learning levels</option>
+<option value="BEGINNER">Beginner</option>
+<option value="INTERMEDIATE">Intermediate</option>
+<option value="ADVANCED">Advanced</option>
+</select>
+<div id="lessonList" class="lesson-list"></div>
+
+<div id="lessonArea">
+<span class="tag" id="lessonLevel"></span>
+<h2 id="lessonTitle"></h2>
+<div id="lessonContent"></div>
+<button class="btn" onclick="finishLesson()">Mark as Completed ✓</button>
+<button class="btn secondary" onclick="closeLesson()">Close Lesson</button>
+</div>
+</section>
+
+<section class="container" id="quiz">
+<h2 class="heading">Knowledge Centre</h2>
+<p class="sub">Test your Kiswahili knowledge.</p>
+<div class="card">
+<p class="tag" id="quizProgress">QUESTION 1</p>
+<h3 id="question"></h3>
+<div id="answers"></div>
+<p id="quizResult"></p>
+<button class="btn" onclick="nextQuestion()">Next Question →</button>
+<p class="small" id="quizScore"></p>
+</div>
+</section>
+
+<section class="container" id="pricing">
+<h2 class="heading">Academy Membership</h2>
+<p class="sub">Choose the learning experience that suits you.</p>
+<div class="grid">
+<div class="card">
+<span class="tag">FREE MEMBERSHIP</span>
+<h3>Starter Plan</h3>
+<div class="price">KSh 0</div>
+<p>✓ Selected beginner lessons</p>
+<p>✓ Basic vocabulary</p>
+<p>✓ Introductory quizzes</p>
+<p>✓ Basic progress tracking</p>
+<button class="btn" onclick="alert('Welcome to the free plan!')">Choose Free</button>
+</div>
+<div class="card premium">
+<span class="tag">⭐ PREMIUM MEMBERSHIP</span>
+<h3>Professional Plan</h3>
+<div class="price">KSh 5,000 <small>/month</small></div>
+<p>✓ All 60 learning lessons</p>
+<p>✓ Beginner to advanced courses</p>
+<p>✓ Full quizzes and examinations</p>
+<p>✓ Advanced learning resources</p>
+<p>✓ Progress tracking</p>
+<p>✓ Certificate eligibility</p>
+<p>✓ Premium learning materials</p>
+<button class="btn" onclick="premiumRequest()">Upgrade to Premium</button>
+</div>
+</div>
+<p class="small">Premium requires payment integration and administrator approval. This demo does not process payments.</p>
+</section>
+
+<section class="container" id="account">
+<h2 class="heading">Student Registration</h2>
+<p class="sub">Create a local learning profile.</p>
+<div class="card">
+<form onsubmit="register(event)">
+<label>Full name</label>
+<input id="studentName" placeholder="Enter your name" required>
+<label>Email address</label>
+<input id="studentEmail" type="email" placeholder="Enter email" required>
+<button class="btn" type="submit">Create Learning Profile</button>
+</form>
+<p id="accountMessage"></p>
+<button class="btn secondary" onclick="logout()">Clear Local Profile</button>
+</div>
+</section>
+
+<footer>
+<h2>🌍 JIFUNZE KISWAHILI</h2>
+<p>Learn. Practice. Speak. Connect.</p>
+<p>Making Kiswahili learning accessible to the world.</p>
+<p>© 2026 Jifunze Kiswahili Academy</p>
+</footer>
+
+<script>
+
+/* =================================================
+   60 COMPLETE COURSE TOPICS AND LEARNING NOTES
+================================================= */
+
+const lessons = [
+
+/* BEGINNER */
+
+["BEGINNER","1. Introduction to Kiswahili",`Kiswahili is a widely spoken African language, especially in East Africa.
+
+KEY WORDS
+Kiswahili = Swahili language
+Lugha = Language
+Mwalimu = Teacher
+Mwanafunzi = Student
+Kujifunza = To learn
+
+PRACTICE
+Introduce yourself and explain why you want to learn Kiswahili.`],
+
+["BEGINNER","2. Kiswahili Alphabet",`Learn the Kiswahili alphabet and common letter combinations.
+
+VOWELS
+A, E, I, O, U.
+
+EXAMPLES
+A - Asante
+E - Embe
+I - Inchi
+O - Oda
+U - Uji
+
+COMMON COMBINATIONS
+CH - Chai
+SH - Shule
+NY - Nyanya
+NG - Ngoma
+
+PRACTICE
+Read each example aloud.`],
+
+["BEGINNER","3. Pronunciation",`Kiswahili pronunciation is generally consistent.
+
+A = as in father
+E = as in bed
+I = as in machine
+O = as in more
+U = as in rule
+
+PRACTICE WORDS
+Habari
+Asante
+Karibu
+Shule
+Rafiki
+
+Exercise: Pronounce each word slowly and clearly.`],
+
+["BEGINNER","4. Greetings and Introductions",`Jambo = Hello
+Habari = How are you?
+Hujambo = Hello (singular)
+Sijambo = I am fine
+Habari za asubuhi = Good morning
+Habari za jioni = Good evening
+Asante = Thank you
+Karibu = Welcome
+Kwa heri = Goodbye
+
+CONVERSATION
+
+A: Habari yako?
+B: Nzuri, asante.
+A: Unaitwa nani?
+B: Ninaitwa John.
+
+TRANSLATION
+A: How are you?
+B: Fine, thank you.
+A: What is your name?
+B: My name is John.`],
+
+["BEGINNER","5. Numbers 1–100",`1 Moja | 2 Mbili | 3 Tatu
+4 Nne | 5 Tano | 6 Sita
+7 Saba | 8 Nane | 9 Tisa
+10 Kumi
+
+20 Ishirini
+30 Thelathini
+40 Arobaini
+50 Hamsini
+60 Sitini
+70 Sabini
+80 Themanini
+90 Tisini
+100 Mia moja
+
+PRACTICE
+Count from 1 to 20 in Kiswahili.`],
+
+["BEGINNER","6. Days and Months",`DAYS
+Monday - Jumatatu
+Tuesday - Jumanne
+Wednesday - Jumatano
+Thursday - Alhamisi
+Friday - Ijumaa
+Saturday - Jumamosi
+Sunday - Jumapili
+
+MONTHS
+Januari, Februari, Machi, Aprili, Mei, Juni, Julai, Agosti, Septemba, Oktoba, Novemba, Desemba.
+
+PRACTICE
+Say today's day and month in Kiswahili.`],
+
+["BEGINNER","7. Family Members",`Mama = Mother
+Baba = Father
+Dada = Sister
+Kaka = Brother
+Babu = Grandfather
+Bibi = Grandmother
+Mtoto = Child
+Mwana = Son or daughter
+Familia = Family
+Ndugu = Relative or sibling
+
+EXAMPLE
+Huyu ni mama yangu.
+This is my mother.`],
+
+["BEGINNER","8. Colours",`Nyekundu = Red
+Bluu = Blue
+Kijani = Green
+Nyeupe = White
+Nyeusi = Black
+Njano = Yellow
+Machungwa = Orange
+Zambarau = Purple
+
+EXAMPLE
+Gari jekundu = Red car.
+
+PRACTICE
+Describe five objects around you.`],
+
+["BEGINNER","9. Food and Drinks",`Chakula = Food
+Maji = Water
+Mkate = Bread
+Wali = Rice
+Nyama = Meat
+Samaki = Fish
+Maziwa = Milk
+Chai = Tea
+Matunda = Fruits
+Mboga = Vegetables
+
+EXAMPLE
+Ninapenda kula wali.
+I like eating rice.`],
+
+["BEGINNER","10. Common Objects",`Kitabu = Book
+Kalamu = Pen
+Meza = Table
+Kiti = Chair
+Mlango = Door
+Dirisha = Window
+Simu = Phone
+Saa = Clock
+Gari = Car
+Nyumba = House
+
+EXERCISE
+Name ten objects in your classroom or home.`],
+
+["BEGINNER","11. Personal Pronouns",`Mimi = I
+Wewe = You
+Yeye = He or she
+Sisi = We
+Ninyi = You plural
+Wao = They
+
+EXAMPLES
+Mimi ni mwanafunzi.
+I am a student.
+
+Sisi ni marafiki.
+We are friends.
+
+Wao ni walimu.
+They are teachers.`],
+
+["BEGINNER","12. Basic Verbs",`Kula = To eat
+Kunywa = To drink
+Kwenda = To go
+Kuja = To come
+Kusoma = To read or study
+Kuandika = To write
+Kucheza = To play
+Kulala = To sleep
+Kuzungumza = To speak
+Kusikiliza = To listen
+
+PRACTICE
+Construct five sentences using these verbs.`],
+
+["BEGINNER","13. Places and Directions",`Hospitali = Hospital
+Shule = School
+Soko = Market
+Kanisa = Church
+Msikiti = Mosque
+Kushoto = Left
+Kulia = Right
+Mbele = Ahead
+Nyuma = Behind
+Karibu = Near
+
+EXAMPLE
+Hospitali iko wapi?
+Where is the hospital?`],
+
+["BEGINNER","14. Asking Questions",`Nani? = Who?
+Nini? = What?
+Wapi? = Where?
+Lini? = When?
+Kwa nini? = Why?
+Vipi? = How?
+Gani? = Which?
+
+EXAMPLES
+Unaishi wapi? = Where do you live?
+Unataka nini? = What do you want?
+Unakuja lini? = When are you coming?
+
+PRACTICE
+Create five questions.`],
+
+["BEGINNER","15. Simple Sentences",`Mimi ni mwanafunzi = I am a student.
+Yeye ni mwalimu = He or she is a teacher.
+Hii ni nyumba = This is a house.
+Sisi tunasoma = We are studying.
+Juma anakula = Juma is eating.
+
+LEARN
+A simple sentence communicates one complete idea.
+
+PRACTICE
+Write ten simple Kiswahili sentences.`],
+
+["BEGINNER","16. Time and Clock",`Saa ngapi? = What time is it?
+Sasa = Now
+Asubuhi = Morning
+Mchana = Afternoon
+Jioni = Evening
+Usiku = Night
+Dakika = Minute
+Saa = Hour or clock
+
+EXAMPLE
+Ninaamka asubuhi.
+I wake up in the morning.`],
+
+["BEGINNER","17. Shopping Vocabulary",`Bei = Price
+Pesa = Money
+Nunua = Buy
+Uza = Sell
+Ghali = Expensive
+Rahisi = Cheap
+Duka = Shop
+Punguzo = Discount
+Risiti = Receipt
+
+CONVERSATION
+Muuzaji: Unataka nini?
+Mteja: Nataka mkate.
+Muuzaji: Ni shilingi hamsini.`],
+
+["BEGINNER","18. Weather",`Jua = Sun
+Mvua = Rain
+Upepo = Wind
+Baridi = Cold
+Joto = Heat
+Mawingu = Clouds
+Hali ya hewa = Weather
+
+EXAMPLES
+Kuna mvua = It is raining.
+Leo kuna jua = Today it is sunny.
+Hali ya hewa ni nzuri = The weather is good.`],
+
+["BEGINNER","19. Everyday Conversations",`A: Habari yako?
+B: Nzuri, asante.
+
+A: Unatoka wapi?
+B: Natoka Kenya.
+
+A: Unaishi wapi?
+B: Ninaishi Nairobi.
+
+A: Unafanya kazi gani?
+B: Mimi ni mwanafunzi.
+
+PRACTICE
+Create a conversation with another learner.`],
+
+["BEGINNER","20. Beginner Final Examination",`REVISION AREAS
+
+1. Greetings and introductions.
+2. Numbers and colours.
+3. Family vocabulary.
+4. Food and objects.
+5. Personal pronouns.
+6. Basic verbs.
+7. Simple sentences.
+8. Days and months.
+9. Asking questions.
+10. Everyday conversations.
+
+EXAM TASK
+Write a paragraph introducing yourself in Kiswahili.
+Translate ten English words into Kiswahili.
+Write five questions and answer them.`],
+
+/* INTERMEDIATE */
+
+["INTERMEDIATE","21. Kiswahili Noun Classes",`Study important noun classes.
+
+M-WA
+Mtu - Watu = Person - People.
+
+M-MI
+Mti - Miti = Tree - Trees.
+
+KI-VI
+Kitabu - Vitabu = Book - Books.
+
+JI-MA
+Jicho - Macho = Eye - Eyes.
+
+PA-KU-MU
+Learn expressions of location.
+
+PRACTICE
+Write five examples from each class.`],
+
+["INTERMEDIATE","22. Present Tense",`The -na- marker commonly expresses present actions.
+
+Ninasoma = I am studying.
+Unacheza = You are playing.
+Anakula = He or she is eating.
+Tunakwenda = We are going.
+Wanaimba = They are singing.
+
+STRUCTURE
+Subject marker + na + verb root.
+
+PRACTICE
+Construct ten present-tense sentences.`],
+
+["INTERMEDIATE","23. Past Tense",`The -li- marker expresses completed past actions.
+
+Nilisoma = I studied.
+Ulicheza = You played.
+Alikwenda = He or she went.
+Tulipika = We cooked.
+Walikuja = They came.
+
+PRACTICE
+Write five sentences about yesterday.`],
+
+["INTERMEDIATE","24. Future Tense",`The -ta- marker expresses future actions.
+
+Nitasoma = I will study.
+Utacheza = You will play.
+Atakuja = He or she will come.
+Tutaenda = We will go.
+Wataimba = They will sing.
+
+PRACTICE
+Write five sentences about tomorrow.`],
+
+["INTERMEDIATE","25. Negative Sentences",`Learn how to form negative sentences.
+
+Sisomi = I do not study.
+Hatuendi = We are not going.
+Sichezi = I do not play.
+Hakuja = He or she did not come.
+Sijakula = I have not eaten.
+
+NOTE
+Negative forms change depending on tense and subject.
+
+PRACTICE
+Convert ten positive sentences into negative sentences.`],
+
+["INTERMEDIATE","26. Adjectives",`Adjectives describe nouns.
+
+Mzuri = Good or beautiful.
+Kubwa = Big.
+Ndogo = Small.
+Mrefu = Tall or long.
+Mfupi = Short.
+Saf i = Clean.
+Mpya = New.
+Kale = Old.
+
+EXAMPLE
+Nyumba kubwa = Big house.
+Mtoto mdogo = Small child.
+
+PRACTICE
+Describe five people and five objects.`],
+
+["INTERMEDIATE","27. Adverbs",`Adverbs describe how actions happen.
+
+Polepole = Slowly.
+Haraka = Quickly.
+Vizuri = Well.
+Sana = Very or a lot.
+Leo = Today.
+Jana = Yesterday.
+Kesho = Tomorrow.
+
+EXAMPLE
+Anakimbia haraka.
+He or she runs quickly.
+
+PRACTICE
+Construct sentences using five adverbs.`],
+
+["INTERMEDIATE","28. Prepositions",`Useful expressions:
+
+Katika = In or within.
+Juu ya = On top of.
+Chini ya = Under.
+Mbele ya = In front of.
+Nyuma ya = Behind.
+Karibu na = Near.
+Mbali na = Far from.
+Kati ya = Between.
+
+EXAMPLE
+Kitabu kiko juu ya meza.
+The book is on the table.`],
+
+["INTERMEDIATE","29. Possessive Words",`Yangu = My or mine.
+Yako = Your or yours.
+Yake = His or hers.
+Yetu = Our or ours.
+Yenu = Your plural.
+Yao = Their or theirs.
+
+EXAMPLES
+Kitabu changu = My book.
+Nyumba yangu = My house.
+Rafiki yangu = My friend.
+
+NOTE
+Possessive forms agree with noun classes.
+
+PRACTICE
+Describe your belongings.`],
+
+["INTERMEDIATE","30. Demonstratives",`Demonstratives point to particular people and objects.
+
+Huyu = This person.
+Yule = That person.
+Hiki = This (KI-VI class).
+Kile = That (KI-VI class).
+Hizi = These (ZI class).
+Zile = Those (ZI class).
+
+EXAMPLES
+Hiki ni kitabu = This is a book.
+Yule ni mwalimu = That is a teacher.
+
+PRACTICE
+Point to objects and describe them.`],
+
+["INTERMEDIATE","31. Making Comparisons",`Learn comparison expressions.
+
+Zaidi ya = More than.
+Kuliko = Than.
+Sawa na = Equal to.
+Chini ya = Less than.
+
+EXAMPLE
+Juma ni mrefu kuliko Ali.
+Juma is taller than Ali.
+
+Gari hili ni ghali kuliko lile.
+This car is more expensive than that one.
+
+PRACTICE
+Compare five objects.`],
+
+["INTERMEDIATE","32. Giving Instructions",`Common commands:
+
+Njoo = Come.
+Kaa = Sit.
+Soma = Read.
+Sikiliza = Listen.
+Fungua = Open.
+Funga = Close.
+Subiri = Wait.
+Andika = Write.
+Angalia = Look.
+
+POLITE EXPRESSIONS
+Tafadhali = Please.
+Asante = Thank you.
+Samahani = Excuse me.
+
+PRACTICE
+Give five instructions politely.`],
+
+["INTERMEDIATE","33. Telephone Conversations",`USEFUL VOCABULARY
+
+Simu = Phone.
+Piga simu = Make a call.
+Pokea simu = Answer a call.
+Namba = Number.
+Ujumbe = Message.
+Sauti = Voice.
+
+CONVERSATION
+A: Hujambo?
+B: Sijambo.
+A: Naweza kuzungumza na John?
+B: Ndiyo, subiri kidogo.
+
+PRACTICE
+Role-play a telephone conversation.`],
+
+["INTERMEDIATE","34. Travel and Transport",`Usafiri = Transport.
+Basi = Bus.
+Treni = Train.
+Ndege = Aeroplane.
+Tiketi = Ticket.
+Uwanja wa ndege = Airport.
+Kituo = Station.
+Dereva = Driver.
+Safari = Journey.
+
+EXAMPLE
+Basi linaondoka saa ngapi?
+What time does the bus leave?
+
+PRACTICE
+Ask for directions and travel information.`],
+
+["INTERMEDIATE","35. At the Hospital",`Hospitali = Hospital.
+Daktari = Doctor.
+Muuguzi = Nurse.
+Mgonjwa = Patient.
+Dawa = Medicine.
+Maumivu = Pain.
+Afya = Health.
+Huduma = Service.
+
+EXAMPLE
+Nahitaji kuonana na daktari.
+I need to see a doctor.
+
+PRACTICE
+Learn how to explain basic needs at a hospital.`],
+
+["INTERMEDIATE","36. At the Restaurant",`Mgahawa = Restaurant.
+Menyu = Menu.
+Chakula = Food.
+Maji = Water.
+Maziwa = Milk.
+Ankara = Bill.
+Mhudumu = Waiter or server.
+
+CONVERSATION
+A: Naomba menyu.
+B: Karibu.
+A: Naomba wali na samaki.
+B: Sawa.
+
+PRACTICE
+Order a meal in Kiswahili.`],
+
+["INTERMEDIATE","37. Writing Paragraphs",`A good paragraph contains:
+
+1. Topic sentence.
+2. Supporting information.
+3. Examples.
+4. Concluding sentence.
+
+USEFUL CONNECTORS
+Pia = Also.
+Lakini = But.
+Kwa sababu = Because.
+Kwa hiyo = Therefore.
+Kisha = Then.
+Hata hivyo = However.
+
+EXERCISE
+Write a paragraph about your school.`],
+
+["INTERMEDIATE","38. Storytelling",`Storytelling uses vocabulary, descriptions and different tenses.
+
+USEFUL WORDS
+Hapo zamani = Long ago.
+Siku moja = One day.
+Baadaye = Later.
+Ghafla = Suddenly.
+Hatimaye = Finally.
+
+EXERCISE
+Write a short story about a memorable day.
+
+Use past tense and descriptive words.`],
+
+["INTERMEDIATE","39. Listening and Comprehension",`Develop your listening skills.
+
+PRACTICE METHOD
+1. Listen to a Kiswahili conversation.
+2. Identify the speakers.
+3. Identify the main topic.
+4. Write down new vocabulary.
+5. Summarize the conversation.
+
+LEARNING TIP
+Listen to Kiswahili news, interviews and educational conversations.
+
+EXERCISE
+Summarize a short Kiswahili conversation.`],
+
+["INTERMEDIATE","40. Intermediate Final Examination",`REVISION AREAS
+
+1. Noun classes.
+2. Present, past and future tense.
+3. Negative sentences.
+4. Adjectives and adverbs.
+5. Possessive words.
+6. Demonstratives.
+7. Prepositions.
+8. Comparisons.
+9. Paragraph writing.
+10. Everyday communication.
+
+FINAL TASK
+Write a 200-word Kiswahili composition about your daily life.`],
+
+/* ADVANCED */
+
+["ADVANCED","41. Advanced Grammar",`Study advanced grammar and sentence construction.
+
+TOPICS
+Noun agreement.
+Verb agreement.
+Object markers.
+Relative constructions.
+Complex clauses.
+Tense and aspect.
+
+EXAMPLE
+Wanafunzi waliokuwa wakisoma walifaulu.
+The students who were studying passed.
+
+PRACTICE
+Analyze five complex sentences.`],
+
+["ADVANCED","42. Complex Sentence Construction",`Combine simple sentences using connectors.
+
+NA = And.
+LAKINI = But.
+AU = Or.
+KWA SABABU = Because.
+INGAWA = Although.
+HATA HIVYO = Nevertheless.
+
+EXAMPLE
+Nilisoma kwa bidii kwa sababu nilitaka kufaulu.
+I studied hard because I wanted to pass.
+
+EXERCISE
+Construct ten complex sentences.`],
+
+["ADVANCED","43. Conditional Sentences",`Conditional expressions:
+
+Kama = If.
+Ikiwa = If.
+Endapo = If or in the event that.
+
+EXAMPLE
+Ikiwa utasoma, utafaulu.
+If you study, you will pass.
+
+Kama mvua itanyesha, tutabaki nyumbani.
+If it rains, we will stay at home.
+
+PRACTICE
+Write five conditional sentences.`],
+
+["ADVANCED","44. Passive Voice",`Passive voice emphasizes the action or its receiver.
+
+EXAMPLE
+Active:
+Mwalimu anafundisha wanafunzi.
+The teacher teaches students.
+
+Passive:
+Wanafunzi wanafundishwa na mwalimu.
+The students are taught by the teacher.
+
+PRACTICE
+Convert five active sentences into passive sentences.`],
+
+["ADVANCED","45. Reported Speech",`Learn to report statements and conversations.
+
+DIRECT SPEECH
+Asha alisema, "Ninasoma."
+
+REPORTED SPEECH
+Asha alisema kwamba alikuwa akisoma.
+
+USEFUL WORDS
+Alisema = He or she said.
+Aliuliza = He or she asked.
+Alijibu = He or she answered.
+Kwamba = That.
+
+PRACTICE
+Report five conversations.`],
+
+["ADVANCED","46. Formal and Informal Kiswahili",`INFORMAL COMMUNICATION
+Used with friends and familiar people.
+
+FORMAL COMMUNICATION
+Used in professional, academic and official environments.
+
+FORMAL EXPRESSIONS
+Ningependa = I would like.
+Tafadhali = Please.
+Kwa heshima = Respectfully.
+Ninawashukuru = I thank you all.
+
+PRACTICE
+Write one formal and one informal conversation.`],
+
+["ADVANCED","47. Business Kiswahili",`BUSINESS VOCABULARY
+
+Biashara = Business.
+Mteja = Customer.
+Mkataba = Contract.
+Faida = Profit.
+Hasara = Loss.
+Mauzo = Sales.
+Bidhaa = Product.
+Huduma = Service.
+Mkutano = Meeting.
+Meneja = Manager.
+
+EXERCISE
+Prepare a business introduction in Kiswahili.`],
+
+["ADVANCED","48. Academic Kiswahili",`ACADEMIC VOCABULARY
+
+Utafiti = Research.
+Elimu = Education.
+Nadharia = Theory.
+Uchambuzi = Analysis.
+Hitimisho = Conclusion.
+Utangulizi = Introduction.
+Marejeleo = References.
+
+EXERCISE
+Write an academic paragraph explaining the importance of education.`],
+
+["ADVANCED","49. Public Speaking",`Develop confidence when speaking Kiswahili publicly.
+
+PRESENTATION STRUCTURE
+1. Greeting.
+2. Introduction.
+3. Main points.
+4. Supporting examples.
+5. Conclusion.
+6. Thank the audience.
+
+USEFUL EXPRESSIONS
+Waheshimiwa wageni = Distinguished guests.
+Leo ningependa kuzungumzia = Today I would like to discuss.
+Asanteni kwa kunisikiliza = Thank you for listening.
+
+PRACTICE
+Prepare a three-minute speech.`],
+
+["ADVANCED","50. Debate and Discussion",`Learn to present arguments respectfully.
+
+USEFUL EXPRESSIONS
+Ninakubaliana = I agree.
+Sikubaliani = I disagree.
+Kwa maoni yangu = In my opinion.
+Ninaamini kwamba = I believe that.
+Kwa upande mwingine = On the other hand.
+
+EXERCISE
+Debate the importance of learning foreign languages.`],
+
+["ADVANCED","51. Media and Journalism",`MEDIA VOCABULARY
+
+Habari = News.
+Gazeti = Newspaper.
+Mwandishi = Writer or journalist.
+Mahojiano = Interview.
+Taarifa = Information or report.
+Matangazo = Announcements.
+Ripoti = Report.
+Chanzo = Source.
+
+EXERCISE
+Write a short news report in Kiswahili.`],
+
+["ADVANCED","52. Literature and Poetry",`Explore Kiswahili literature.
+
+TOPICS
+Riwaya = Novel.
+Hadithi = Story.
+Ushairi = Poetry.
+Mhusika = Character.
+Mandhari = Setting.
+Dhamira = Theme.
+Tamathali za semi = Figures of speech.
+
+EXERCISE
+Analyze a short Kiswahili story and identify its theme.`],
+
+["ADVANCED","53. Proverbs and Expressions",`METHALI - PROVERBS
+
+Haraka haraka haina baraka.
+Haste makes waste.
+
+Penye nia pana njia.
+Where there is a will, there is a way.
+
+Asiyefunzwa na mamaye hufunzwa na ulimwengu.
+Someone not taught by their mother is taught by the world.
+
+NAHAU
+Kula chumvi nyingi = To be experienced.
+Kupiga moyo konde = To encourage oneself.
+
+PRACTICE
+Explain five Kiswahili proverbs.`],
+
+["ADVANCED","54. Translation Skills",`Develop accurate translation skills.
+
+TRANSLATION PRINCIPLES
+1. Understand the original meaning.
+2. Identify the sentence structure.
+3. Choose appropriate vocabulary.
+4. Preserve the intended meaning.
+5. Check grammar and context.
+
+EXAMPLE
+English: I want to learn Kiswahili.
+Kiswahili: Ninataka kujifunza Kiswahili.
+
+EXERCISE
+Translate ten sentences in both directions.`],
+
+["ADVANCED","55. Professional Email Writing",`FORMAL EMAIL STRUCTURE
+
+Subject = Mada.
+Dear Sir/Madam = Ndugu Mheshimiwa.
+I am writing to = Ninaandika ili.
+Please find attached = Tafadhali angalia kiambatisho.
+Kind regards = Wako kwa dhati.
+
+PRACTICE
+Write a formal email requesting information about a course.`],
+
+["ADVANCED","56. Regional Kiswahili Usage",`Explore Kiswahili usage across East Africa.
+
+Learn about:
+Kenyan Kiswahili.
+Tanzanian Kiswahili.
+Regional vocabulary.
+Formal standard Kiswahili.
+Common conversational expressions.
+
+IMPORTANT
+Some words and expressions differ between communities and regions.
+
+EXERCISE
+Compare five regional expressions and explain their meanings.`],
+
+["ADVANCED","57. Advanced Listening",`Develop advanced listening comprehension.
+
+PRACTICE
+1. Listen to a long conversation.
+2. Identify the main argument.
+3. Identify supporting points.
+4. Recognize unfamiliar expressions.
+5. Summarize the speaker's message.
+
+EXERCISE
+Listen to a Kiswahili interview and prepare a written summary.`],
+
+["ADVANCED","58. Advanced Writing",`Develop professional writing skills.
+
+WRITING TYPES
+Formal letters.
+Reports.
+Essays.
+Proposals.
+Academic compositions.
+Business correspondence.
+
+WRITING PRINCIPLES
+Correct grammar.
+Clear paragraphs.
+Logical organization.
+Appropriate vocabulary.
+Accurate punctuation.
+
+EXERCISE
+Write a 500-word composition about technology and education.`],
+
+["ADVANCED","59. Professional Communication Project",`FINAL PROJECT
+
+Prepare a complete Kiswahili presentation.
+
+PART 1
+Introduce yourself professionally.
+
+PART 2
+Prepare a business or academic presentation.
+
+PART 3
+Write a formal report.
+
+PART 4
+Conduct a professional conversation.
+
+PART 5
+Present your work to an audience.
+
+ASSESSMENT
+Grammar, vocabulary, confidence, organization and clarity.`],
+
+["ADVANCED","60. Advanced Final Examination",`FINAL REVISION
+
+Advanced grammar.
+Complex sentences.
+Conditional statements.
+Passive voice.
+Reported speech.
+Professional communication.
+Academic writing.
+Literature.
+Translation.
+Listening and comprehension.
+
+FINAL PROJECT
+Write an essay, prepare a speech and conduct a professional Kiswahili conversation.
+
+A certificate should only be issued after a verified assessment and course completion.`]
+
+];
+
+/* =================================================
+   STUDENT DATA AND PROGRESS
+================================================= */
+
+let completedLessons = JSON.parse(
+ localStorage.getItem("completedLessons") || "[]"
+);
+
+let currentLesson = null;
+
+function renderLessons(){
+
+ const list = document.getElementById("lessonList");
+ const search = document.getElementById("lessonSearch").value.toLowerCase();
+ const filter = document.getElementById("levelFilter").value;
+
+ const levels = ["BEGINNER","INTERMEDIATE","ADVANCED"];
+ let html = "";
+
+ levels.forEach(level=>{
+
+  if(filter !== "ALL" && filter !== level) return;
+
+  const filtered = lessons
+   .map((lesson,index)=>({...lesson,index}))
+   .filter(lesson=>
+    lesson[0] === level &&
+    (lesson[1].toLowerCase().includes(search) ||
+     lesson[2].toLowerCase().includes(search))
+   );
+
+  if(!filtered.length) return;
+
+  html += `<div class="level-heading">${level} LEVEL — ${filtered.length} LESSONS</div>`;
+
+  filtered.forEach(lesson=>{
+
+   const done = completedLessons.includes(lesson.index);
+
+   html += `
+   <div class="lesson">
+    <div>
+     <b>${lesson[1]}</b>
+     <p>${done ? "✓ Completed" : "Available to study"}</p>
+    </div>
+    <button class="${done ? "done" : ""}"
+      onclick="openLesson(${lesson.index})">
+      ${done ? "Review Lesson" : "Start Lesson"}
+    </button>
+   </div>`;
+
+  });
+
+ });
+
+ list.innerHTML = html || "<p style='padding:20px'>No lessons found.</p>";
+}
+
+function openLesson(index){
+
+ currentLesson = index;
+ const lesson = lessons[index];
+
+ document.getElementById("lessonArea").style.display = "block";
+ document.getElementById("lessonLevel").textContent = lesson[0];
+ document.getElementById("lessonTitle").textContent = lesson[1];
+ document.getElementById("lessonContent").textContent = lesson[2];
+
+ document.getElementById("lessonArea").scrollIntoView({
+  behavior:"smooth"
+ });
+}
+
+function closeLesson(){
+ document.getElementById("lessonArea").style.display = "none";
+ currentLesson = null;
+}
+
+function finishLesson(){
+
+ if(currentLesson === null) return;
+
+ if(!completedLessons.includes(currentLesson)){
+  completedLessons.push(currentLesson);
+  localStorage.setItem(
+   "completedLessons",
+   JSON.stringify(completedLessons)
+  );
+ }
+
+ updateProgress();
+ renderLessons();
+
+ alert("Congratulations! Lesson completed.");
+}
+
+function updateProgress(){
+
+ const count = completedLessons.length;
+ const percent = Math.round(count / lessons.length * 100);
+
+ document.getElementById("completedCount").textContent = count;
+ document.getElementById("progressNumber").textContent = percent + "%";
+ document.getElementById("progressBar").style.width = percent + "%";
+
+ let level = "Beginner";
+
+ if(count >= 40) level = "Advanced";
+ else if(count >= 20) level = "Intermediate";
+
+ document.getElementById("studentLevel").textContent = level;
+}
+
+/* =================================================
+   QUIZ SYSTEM
+================================================= */
+
+const questions = [
+{q:"What does Jambo mean?",a:["Goodbye","Hello","Thank you"],c:1},
+{q:"What is Asante in English?",a:["Thank you","Welcome","Sorry"],c:0},
+{q:"What is the Kiswahili word for three?",a:["Moja","Tatu","Nne"],c:1},
+{q:"What does Karibu mean?",a:["Welcome","Goodbye","Please"],c:0},
+{q:"What is Maji?",a:["Food","Water","House"],c:1},
+{q:"What is the Kiswahili word for school?",a:["Soko","Shule","Siku"],c:1},
+{q:"What does Kesho mean?",a:["Yesterday","Today","Tomorrow"],c:2},
+{q:"What does Mama mean?",a:["Mother","Sister","Friend"],c:0},
+{q:"What does Kula mean?",a:["To sleep","To eat","To write"],c:1},
+{q:"What is the Kiswahili word for book?",a:["Kitabu","Kalamu","Kiti"],c:0},
+{q:"What does Haraka mean?",a:["Slowly","Quickly","Quietly"],c:1},
+{q:"What is the present tense marker?",a:["-li-","-ta-","-na-"],c:2},
+{q:"What does Rafiki mean?",a:["Friend","Teacher","Student"],c:0},
+{q:"What is the past tense marker?",a:["-na-","-li-","-ta-"],c:1},
+{q:"What does Biashara mean?",a:["Education","Business","Hospital"],c:1}
+];
+
+let qIndex = 0;
+let score = 0;
+let answered = false;
+
+function showQuestion(){
+
+ answered = false;
+
+ const q = questions[qIndex];
+
+ document.getElementById("question").textContent = q.q;
+ document.getElementById("quizProgress").textContent =
+  "QUESTION " + (qIndex+1) + " OF " + questions.length;
+
+ document.getElementById("quizResult").textContent = "";
+
+ document.getElementById("answers").innerHTML =
+  q.a.map((answer,i)=>
+   `<button class="quiz-option" onclick="checkAnswer(${i})">${answer}</button>`
+  ).join("");
+
+ document.getElementById("quizScore").textContent =
+  "Score: " + score;
+}
+
+function checkAnswer(index){
+
+ if(answered) return;
+
+ answered = true;
+
+ const correct = questions[qIndex].c;
+
+ if(index === correct){
+  score++;
+  document.getElementById("quizResult").textContent =
+   "Correct! Excellent work.";
+ }else{
+  document.getElementById("quizResult").textContent =
+   "Incorrect. Correct answer: " + questions[qIndex].a[correct];
+ }
+
+ document.getElementById("quizScore").textContent =
+  "Score: " + score;
+}
+
+function nextQuestion(){
+
+ qIndex++;
+
+ if(qIndex >= questions.length){
+
+  document.getElementById("question").textContent =
+   "Quiz completed!";
+
+  document.getElementById("answers").innerHTML = "";
+
+  document.getElementById("quizResult").textContent =
+   "Your final score: " + score + " out of " + questions.length;
+
+  document.getElementById("quizProgress").textContent =
+   "EXAMINATION FINISHED";
+
+  return;
+ }
+
+ showQuestion();
+}
+
+/* =================================================
+   STUDENT REGISTRATION DEMO
+================================================= */
+
+function register(e){
+
+ e.preventDefault();
+
+ const name = document.getElementById("studentName").value.trim();
+ const email = document.getElementById("studentEmail").value.trim();
+
+ localStorage.setItem("studentName",name);
+ localStorage.setItem("studentEmail",email);
+
+ showAccount();
+
+ document.getElementById("accountMessage").textContent =
+  "Your local profile has been created successfully!";
+}
+
+function showAccount(){
+
+ const name = localStorage.getItem("studentName");
+
+ if(name){
+  document.getElementById("welcome").textContent =
+   "Welcome back, " + name + "! Continue your Kiswahili journey.";
+
+  document.getElementById("studentName").value = name;
+  document.getElementById("studentEmail").value =
+   localStorage.getItem("studentEmail") || "";
+ }
+}
+
+function logout(){
+
+ localStorage.removeItem("studentName");
+ localStorage.removeItem("studentEmail");
+
+ document.getElementById("studentName").value = "";
+ document.getElementById("studentEmail").value = "";
+ document.getElementById("welcome").textContent =
+  "Welcome to your learning journey.";
+
+ document.getElementById("accountMessage").textContent =
+  "Local profile cleared.";
+}
+
+/* =================================================
+   PREMIUM MEMBERSHIP
+================================================= */
+
+function premiumRequest(){
+
+ alert(
+  "Premium membership costs KSh 5,000 per month. " +
+  "Contact the academy administrator to arrange enrollment. " +
+  "Online payment is not yet activated."
+ );
+}
+
+/* INITIALIZE WEBSITE */
+
+renderLessons();
+updateProgress();
+showQuestion();
+showAccount();
+
+</script>
+
+</body>
+</html>
